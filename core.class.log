@@ -1,0 +1,258 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0C86784E7938987FE2C',
+    participant: undefined
+  },
+  messageTimestamp: 1701444909,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5493491440894'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_737b946e-09d2-492e-9a6d-ec5882618123',
+  keyword: 'key_fb509709-a97d-4ac1-ae41-dc8e4cf243a3',
+  answer: '🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'cbbc762eecc7109bfff05a7e6098f3e2'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_c5b64d3d-a3d6-4f68-8906-d16557efd7e7',
+  keyword: 'ans_737b946e-09d2-492e-9a6d-ec5882618123',
+  answer: 'No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️\n' +
+    'Contame, ¿sobre qué necesitas saber?\n' +
+    '1. 👉 Trámites 🗃️\n' +
+    '2. 👉 Licencia de conducir 🪪\n' +
+    '3. 👉 Información sobre el CIC 🫂\n' +
+    '4. 👉 Turismo 📸\n' +
+    '5. 👉 Historia de Ceres 🏛\n' +
+    '6. 👉 Separación y recolección de residuos ♻\n' +
+    '7. 👉 Educación 📚\n' +
+    '8. 👉 Actividades para adultos mayores 👵👴\n' +
+    '9. 👉 Prevención del dengue 🦟\n' +
+    '\n' +
+    '\n' +
+    ' Escribí el número del menú sobre el tema que te interese para continuar.',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 4000,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '9e742db5bc7814e6da6225052d7f1307'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0F93275210656723407',
+    participant: undefined
+  },
+  messageTimestamp: 1701444917,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '4',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '4',
+  from: '5493491440894'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0066DAFDC56F5B9EA5B',
+    participant: undefined
+  },
+  messageTimestamp: 1701445104,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '6',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '6',
+  from: '5493491440894'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB02129181E22B50A74A0',
+    participant: undefined
+  },
+  messageTimestamp: 1701445252,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '8',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '8',
+  from: '5493491440894'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0F637978F76F7A91E5D',
+    participant: undefined
+  },
+  messageTimestamp: 1701445259,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '8',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '8',
+  from: '5493491440894'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB091AAB0C18C6F1C32ED',
+    participant: undefined
+  },
+  messageTimestamp: 1701445265,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5493491440894'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_737b946e-09d2-492e-9a6d-ec5882618123',
+  keyword: 'key_fb509709-a97d-4ac1-ae41-dc8e4cf243a3',
+  answer: '🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'cbbc762eecc7109bfff05a7e6098f3e2'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_c5b64d3d-a3d6-4f68-8906-d16557efd7e7',
+  keyword: 'ans_737b946e-09d2-492e-9a6d-ec5882618123',
+  answer: 'No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️\n' +
+    'Contame, ¿sobre qué necesitas saber?\n' +
+    '1. 👉 Trámites 🗃️\n' +
+    '2. 👉 Licencia de conducir 🪪\n' +
+    '3. 👉 Información sobre el CIC 🫂\n' +
+    '4. 👉 Turismo 📸\n' +
+    '5. 👉 Historia de Ceres 🏛\n' +
+    '6. 👉 Separación y recolección de residuos ♻\n' +
+    '7. 👉 Educación 📚\n' +
+    '8. 👉 Actividades para adultos mayores 👵👴\n' +
+    '9. 👉 Prevención del dengue 🦟\n' +
+    '\n' +
+    '\n' +
+    ' Escribí el número del menú sobre el tema que te interese para continuar.',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 4000,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '9e742db5bc7814e6da6225052d7f1307'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB01541B18CF8820BBA1D',
+    participant: undefined
+  },
+  messageTimestamp: 1701445276,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '8',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '8',
+  from: '5493491440894'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5493491440894@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB07A319816366ECB5B18',
+    participant: undefined
+  },
+  messageTimestamp: 1701445283,
+  pushName: 'Gianluca',
+  broadcast: false,
+  message: Message {
+    conversation: '2',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '2',
+  from: '5493491440894'
+}

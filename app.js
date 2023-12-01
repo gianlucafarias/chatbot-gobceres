@@ -25,12 +25,6 @@ const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 
-const MYSQL_DB_HOST = '172.17.150.99'
-const MYSQL_DB_USER = 'c1791372_turnos'
-const MYSQL_DB_PASSWORD = 'vkhueplkeqor4Xh'
-const MYSQL_DB_NAME = 'c1791372_turnos'
-const MYSQL_DB_PORT = '3306'
-
 let STATUS = {}
 
 let errores = 0;
@@ -187,7 +181,7 @@ const flowSacarTurno = addKeyword('turno')
 */
 
 const flowAyuda = addKeyword('ayuda')
-
+    .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
     .addAnswer('Escribí la palabra *Hola* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones')
     errores= 0;
 
@@ -210,8 +204,8 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
+
             }
         await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
@@ -228,11 +222,22 @@ const flowTramites = addKeyword('Tramites')
 
     const flowLicencias = addKeyword('Licencias')
    .addAnswer('Si vas a conducir un vehículo, sí o sí necesitas contar con una licencia de conducir 🚗🚙🛵🚚🚜', 
-   )
+   null, async (ctx, { provider } ) => {
+    const sock = await provider.getInstance();
+    const msgPoll = {
+    sticker: {
+    url:
+    "media/licencia.webp"
+    }
+    };
+    sock.sendMessage(ctx.key.remoteJid, msgPoll)
+    })
    .addAnswer([
     'Elegí una de estas opciones y seguimos:',
     '1. 👉 Requisitos para sacar la licencia de conducir',
     '2. 👉 Sacar turno',
+
+    '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
    ])
 
       .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
@@ -242,8 +247,8 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
+
             }
             await flowDynamic("⚠️Opción no encontrada, por favor seleccione una opción válida.");
     
@@ -276,10 +281,9 @@ const flowTramites = addKeyword('Tramites')
         if (![1, 2, 3].includes(opcion)) {
             errores++;
 
-            if (errores > 2 )
+            if (errores > 3 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
             }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
     
@@ -332,7 +336,17 @@ const flowTramites = addKeyword('Tramites')
 
     
     const flowTurismo = addKeyword('Turismo')
-    .addAnswer('¡Nuestra ciudad tiene un montón de cosas para disfrutar! 🤩')
+    .addAnswer('¡Nuestra ciudad tiene un montón de cosas para disfrutar! 🤩',
+    null, async (ctx, { provider } ) => {
+        const sock = await provider.getInstance();
+        const msgPoll = {
+        sticker: {
+        url:
+        "media/turismo.webp"
+        }
+        };
+        sock.sendMessage(ctx.key.remoteJid, msgPoll)
+        })
     .addAnswer(['¿Sobre qué queres saber? 👇',
     '1. 👉 Hoteles',
     '2. 👉 Bares y restaurantes',
@@ -349,8 +363,8 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?', {delay: 3000})
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
+
             }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.", {delay: 3000});
     
@@ -410,8 +424,7 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
             }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
             await gotoFlow(flowResiduos);
@@ -439,8 +452,7 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
             }
             await flowDynamic('⚠️ Opción no encontrada, por favor seleccione una opción válida.');
             await gotoFlow(flowEducacion);
@@ -517,8 +529,7 @@ const flowTramites = addKeyword('Tramites')
 
             if (errores > 2 )
             {
-                await flowDynamic('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-                await gotoFlow(flowAyuda)
+                return gotoFlow(flowAyuda);
             }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
