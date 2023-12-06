@@ -23,21 +23,17 @@ async (ctx,{flowDynamic}) =>{
 
 telefono = ctx.from
 const option = ctx.body.toLowerCase().trim();
-if (!["1"].includes(option)) {
-    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
+
+switch (option)
+{
+    case 1: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-}
-else if (!["2"].includes(option)) {
-    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arboles'}                //➡️ Variable del STATUS
+    case 2: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arboles'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-}
-else if (!["3"].includes(option)) {
-    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
+    case 3: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-} 
-else if (!["4"].includes(option)) {
-   return gotoFlow(flowConsultar)
-}                                                                                 // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
+    case 4: return gotoFlow(flowConsultar)
+}                                                                                // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
 
 flowDynamic()
 })
