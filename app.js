@@ -2,12 +2,25 @@ const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 let errores = 0;
+const { GoogleSpreadsheet } = require('google-spreadsheet')
+const fs = require('fs')
+const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
+const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
+const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
+const {
+    createBot,
+    createProvider,
+    createFlow,
+    addKeyword,
+    addAnswer,
+    EVENTS,
+    
+} = require('@bot-whatsapp/bot')
 
 const flowAyuda = addKeyword('ayuda')
     .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
     .addAnswer('Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones')
     errores= 0;
-
 
     const flowMenu = addKeyword('menu', 'menú')
     .addAnswer([
@@ -78,20 +91,6 @@ const flowAyuda = addKeyword('ayuda')
 const flowCrearReclamo = require("./flujos/crearReclamo")
 // const flowAdultosmayores = require("./flujos/AdultosMayores")
 
-const { GoogleSpreadsheet } = require('google-spreadsheet')
-const fs = require('fs')
-const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
-const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
-const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
-const {
-    createBot,
-    createProvider,
-    createFlow,
-    addKeyword,
-    addAnswer,
-    EVENTS,
-    
-} = require('@bot-whatsapp/bot')
 
 
 //////////////////////////// FLUJO PARA CONSULTAR DATOS /////////////////////////////////////////////////////////
