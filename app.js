@@ -95,6 +95,7 @@ else await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n-
             consultados['Edad'] = row.Edad
             consultados['Estado'] = row.Estado
         }
+        /*
         if (row.Estado == 'PENDIENTE')
         {
             await flowDynamic(`El estado de tu solicitud es *PENDIENTE*. Hemos cargado tu reclamo en nuestra base de datos y está pendiente a aprobación. Recordá que completar tu solicitud puede llevar un tiempo.`)
@@ -104,6 +105,7 @@ else await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n-
             await flowDynamic(`El estado de tu solicitud es *COMPLETADO*. Resolvimos tu solicitud.`)
 
         }
+        */
 
 }          
 return consultados
