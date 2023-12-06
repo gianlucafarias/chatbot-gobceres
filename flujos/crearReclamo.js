@@ -8,7 +8,7 @@ const { addKeyword, addAnswer, gotoFlow } = require("@bot-whatsapp/bot");
 
 
 let STATUS = {}
-const flowCrearReclamo = addKeyword('console').addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\n Por eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
+const flowCrearReclamo = addKeyword('console')
 
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
 '1. 👉 Higiene urbana 🗑',
