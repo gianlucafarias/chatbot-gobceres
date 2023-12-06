@@ -1,7 +1,7 @@
-
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
+const flowCrearReclamo = require("./flujos/crearReclamo")
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const fs = require('fs')
 const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
@@ -17,17 +17,47 @@ const {
     
 } = require('@bot-whatsapp/bot')
 
-
-
 let errores = 0;
-
-
 
 //////////////////////////// FLUJO PARA CONSULTAR DATOS /////////////////////////////////////////////////////////
 
+const flowReclamo = addKeyword('11', 'solicitud', 'reclamo', 'reclamos')
+.addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\nPor eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
+.addAnswer([
+    'Ahora podés solicitar un reclamo y consultar el estado de tu solicitud acá:',
+    'Contame, ¿que necesitás?',
+    '1. 👉 Quiero hacer un reclamo',
+    '2. 👉 Ya hice un reclamo, quiero ver el estado de mi solicitud.',
+    '\n\nEscribí el número del menú sobre el tema que te interese para continuar.',
+  ],
+  )
+  .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
+    const opcion = parseInt(ctx.body);
+    if (![1, 2].includes(opcion)) {
+        errores++;
+
+            if (errores > 2 )
+            {
+                return gotoFlow(flowAyuda);
+
+            }
+        await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
+
+        await gotoFlow(flowTramites);
+        return;
+    }
+    switch (opcion) {
+        
+      case 1: return gotoFlow(flowCrearReclamo);
+      case 2: return gotoFlow(flowConsultar);
+      default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
+    }
+  });
+
+
+
 const flowConsultar = addKeyword('Consultar mis datos','🔍 Consultar mis datos 🔍')
-.addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'])
-.addAnswer(['Según el teléfono del cuál me estas escribiendo, tengo estos datos:'],{delay:3000}, async (ctx, {flowDynamic}) =>{
+.addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:3000}, async (ctx, {flowDynamic}) =>{
 telefono = ctx.from
 
 const consultados = await consultarDatos(telefono)
@@ -36,11 +66,13 @@ const Reclamo = consultados['Reclamo']                        // AQUI DECLARAMOS
 const Ubicacion = consultados['Ubicacion']
 const Barrio = consultados['Barrio']
 const Telefono = consultados['Telefono']
-const Edad = consultados['Edad']
 const Estado = consultados['Estado']
 
-
-await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n- *Barrio*: ${Barrio}\n- *Estado del reclamo*: ${Estado}`)
+if (Telefono == undefined)
+{
+    await flowDynamic(`No encontré solicitudes registradas con tu numero de teléfono.`)
+}
+else await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n- *Barrio*: ${Barrio}\n- *Estado del reclamo*: ${Estado}`)
 })
 /////////////////////       ESTA FUNCION CONSULTA LOS DATOS DE UNA FILA !SEGÚN EL TELÉFONO!    ////////////////////////
    async function consultarDatos(telefono){
@@ -62,9 +94,17 @@ await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n- *Bar
             consultados['Telefono'] = row.Telefono
             consultados['Edad'] = row.Edad
             consultados['Estado'] = row.Estado
+        }
+        if (row.Estado == 'PENDIENTE')
+        {
+            await flowDynamic(`El estado de tu solicitud es *PENDIENTE*. Hemos cargado tu reclamo en nuestra base de datos y está pendiente a aprobación. Recordá que completar tu solicitud puede llevar un tiempo.`)
+        }
+        else if (row.Estado == 'COMPLETADO')
+        {
+            await flowDynamic(`El estado de tu solicitud es *COMPLETADO*. Resolvimos tu solicitud.`)
 
         }
-           
+
 }          
 return consultados
 };
@@ -82,7 +122,7 @@ const flowCeresito = addKeyword('ceresito', 'como usar ceresito')
 ])
 
 .addAnswer(['¿Estás listo para charlar?\n',
-            'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal o *Ayuda*.'
+            'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal.'
 ],)
 
 
@@ -101,8 +141,6 @@ const flowAyuda = addKeyword('ayuda')
     .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
     .addAnswer('Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones')
     errores= 0;
-
-
 
 const flowTramites = addKeyword('Tramites', 'tramite', 'quiero hacer un tramite')
   .addAnswer('Hacer trámites puede ser muy aburrido y estresante, por eso quiero facilitarte las cosas 💪')
@@ -476,7 +514,7 @@ const flowTramites = addKeyword('Tramites', 'tramite', 'quiero hacer un tramite'
                 });
 
 
-const flowMenu = addKeyword('menu')
+const flowMenu = addKeyword('menu', 'menú')
 .addAnswer([
             '¿Sobre qué necesitas saber? Te escucho',
             '1. 👉 Trámites 🗃️',
@@ -495,7 +533,7 @@ const flowMenu = addKeyword('menu')
         { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
             const option = ctx.body.toLowerCase().trim();
         
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
                 await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
         
                 await fallBack();
@@ -533,6 +571,9 @@ const flowMenu = addKeyword('menu')
             }
             if (option === "10") {
                 return gotoFlow(flowCeresito);
+            }
+            if (option === "11") {
+                return gotoFlow(flowReclamo);
             }
             
         }
@@ -569,7 +610,7 @@ const flowPrincipal = addKeyword('hola', 'buenos dias', 'buen dia', 'que tal', '
         { delay: 4000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
             const option = ctx.body.toLowerCase().trim();
         
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
                 await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
         
                 await fallBack();
@@ -608,13 +649,15 @@ const flowPrincipal = addKeyword('hola', 'buenos dias', 'buen dia', 'que tal', '
             if (option === "10") {
                 return gotoFlow(flowCeresito);
             }
-            
+            if (option === "11") {
+                return gotoFlow(flowReclamo);
+            }
         }
     )
 
 const main = async () => {
     const adapterDB = new MockAdapter()
-    const adapterFlow = createFlow([flowAgente, flowConsultar, flowMenu, flowPrincipal, flowEmpty, flowTramites, flowCIC, flowLicencias, flowGenero, flowTurismo, flowResiduos, flowSeccionesPatio, flowDengue, flowEducacion, flowAdultosmayores, flowActividadesAdultos, flowConsejoAdultos, flowMujerSegura, flowSeccionesPatio])
+    const adapterFlow = createFlow([flowReclamo, flowCrearReclamo, flowAgente, flowConsultar, flowMenu, flowPrincipal, flowEmpty, flowTramites, flowCIC, flowLicencias, flowGenero, flowTurismo, flowResiduos, flowSeccionesPatio, flowDengue, flowEducacion, flowAdultosmayores, flowActividadesAdultos, flowConsejoAdultos, flowMujerSegura, flowSeccionesPatio])
     const adapterProvider = createProvider(BaileysProvider)
 
     createBot({

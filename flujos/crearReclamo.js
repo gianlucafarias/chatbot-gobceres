@@ -1,6 +1,13 @@
 
-let STATUS = {}
+const { GoogleSpreadsheet } = require('google-spreadsheet')
+const fs = require('fs')
+const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
+const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
+const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
+const { addKeyword, addAnswer, gotoFlow } = require("@bot-whatsapp/bot");
 
+
+let STATUS = {}
 const flowCrearReclamo = addKeyword('console').addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\n Por eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
 
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
@@ -15,11 +22,22 @@ const flowCrearReclamo = addKeyword('console').addAnswer('Queremos que nuestra C
 async (ctx,{flowDynamic}) =>{
 
 telefono = ctx.from
-if (ctx.body == '1')
-reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : ctx.body}                //➡️ Variable del STATUS
-telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-// Variable del STATUS
-                                                                              // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
+const option = ctx.body.toLowerCase().trim();
+if (!["1"].includes(option)) {
+    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
+    telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
+}
+else if (!["2"].includes(option)) {
+    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arboles'}                //➡️ Variable del STATUS
+    telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
+}
+else if (!["3"].includes(option)) {
+    reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
+    telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
+} 
+else if (!["4"].includes(option)) {
+   return gotoFlow(flowConsultar)
+}                                                                                 // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
 
 flowDynamic()
 })
@@ -40,16 +58,8 @@ async (ctx,{flowDynamic}) =>{
 
 telefono = ctx.from
 barrio = STATUS[telefono] = {...STATUS[telefono], barrio : ctx.body}      //Variable del STATUS
-console.log(STATUS[telefono].sexo)
 flowDynamic()
-})
-.addAnswer('¿Qué edad tienes?',
-{capture:true},
-async (ctx,{flowDynamic}) =>{
-
-
-    telefono = ctx.from
-    edad = STATUS[telefono] = {...STATUS[telefono], edad : ctx.body}            //Variable del STATUS
+           //Variable del STATUS
 /////////////////////       ESTA FUNCION AÑADE UNA FILA A SHEETS    /////////////////////////
    ingresarDatos();  
    async function ingresarDatos(){
@@ -61,8 +71,7 @@ async (ctx,{flowDynamic}) =>{
     Ubicacion: STATUS[telefono].ubicacion,
     Barrio: STATUS[telefono].barrio,
     Telefono: STATUS[telefono].telefono,
-    Edad: STATUS[telefono].edad,
-    Estado: STATUS[telefono].estado
+    Estado: 'PENDIENTE'
    
         }];
    
@@ -77,6 +86,9 @@ async (ctx,{flowDynamic}) =>{
             await sheet.addRow(row);}
 }
 
-await flowDynamic ([{body:`Perfecto ${STATUS[telefono].nombre}, espero que te haya parecido sencillo el formulario 😁`}])
-await flowDynamic ({body:`Puedes consultar tus datos escribiendo *Consultar mis datos* o haciendo clic aquí:`, buttons:[{body:'🔍 Consultar mis datos 🔍'}]})
+await flowDynamic (['Perfecto, espero que te haya parecido sencillo el formulario 😁', 
+                    'Podes consultar el estado de tu reclamo escribiendo *Consultar mis datos*'])
 });
+
+
+module.exports = flowCrearReclamo;
