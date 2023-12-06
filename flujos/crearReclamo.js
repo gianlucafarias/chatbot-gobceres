@@ -23,17 +23,21 @@ async (ctx,{flowDynamic}) =>{
 
 telefono = ctx.from
 const option = ctx.body.toLowerCase().trim();
-
 switch (option)
 {
-    case 1: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
+    case '1': reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-    case 2: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arboles'}                //➡️ Variable del STATUS
+    break;
+    case '2': reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arboles'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-    case 3: reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
+    break;
+    case '3': reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
-    case 4: return gotoFlow(flowConsultar)
-}                                                                                // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
+    break;
+    case '4': return gotoFlow(flowConsultar)
+}                     
+console.log(STATUS[telefono])
+                                                           // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
 
 flowDynamic()
 })

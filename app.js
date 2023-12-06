@@ -21,6 +21,143 @@ let errores = 0;
 
 //////////////////////////// FLUJO PARA CONSULTAR DATOS /////////////////////////////////////////////////////////
 
+const flowMenu = addKeyword('menu', 'menú')
+.addAnswer([
+            '¿Sobre qué necesitas saber? Te escucho',
+            '1. 👉 Trámites 🗃️',
+            '2. 👉 Licencia de conducir 🪪',
+            '3. 👉 Información sobre el CIC 🫂',
+            '4. 👉 Turismo 📸',
+            '5. 👉 Historia de Ceres 🏛',
+            '6. 👉 Separación y recolección de residuos ♻',
+            '7. 👉 Educación 📚',
+            '8. 👉 Actividades para adultos mayores 👵👴',
+            '9. 👉 Prevención del dengue 🦟',
+            '10. 👉 Cómo usar Ceresito 🤖',
+            '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
+        ],
+
+        { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
+            const option = ctx.body.toLowerCase().trim();
+        
+            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+                await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
+        
+                await fallBack();
+                return;
+            }
+        
+            if (option === "1") {
+                return gotoFlow(flowTramites);
+            }
+        
+            if (option === "2") {
+                return gotoFlow(flowLicencias);
+            }
+        
+            if (option === "3") {
+                return gotoFlow(flowCIC);
+            }
+            if (option === "4") {
+                return gotoFlow(flowTurismo);
+            }
+            if (option === "5") {
+                return gotoFlow(flowHistoria);
+            }
+            if (option === "6") {
+                return gotoFlow(flowResiduos);
+            }
+            if (option === "7") {
+                return gotoFlow(flowEducacion);
+            }
+            if (option === "8") {
+                return gotoFlow(flowAdultosmayores);
+            }
+            if (option === "9") {
+                return gotoFlow(flowDengue);
+            }
+            if (option === "10") {
+                return gotoFlow(flowCeresito);
+            }
+            if (option === "11") {
+                return gotoFlow(flowReclamo);
+            }
+            
+        }
+    )
+
+const flowConsultar = addKeyword('Consultar mis datos','🔍 Consultar mis datos 🔍')
+.addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:1000}, async (ctx, {flowDynamic}) =>{
+
+try {
+    telefono = ctx.from
+
+    const consultados = await consultarDatos(telefono)
+    
+    const Reclamo = consultados['Reclamo']                        // AQUI DECLARAMOS LAS VARIABLES CON LOS DATOS QUE NOS TRAEMOS DE LA FUNCION         VVVVVVVVV
+    const Ubicacion = consultados['Ubicacion']
+    const Barrio = consultados['Barrio']
+    const Telefono = consultados['Telefono']
+    const Estado = consultados['Estado']
+    
+    if (Telefono === undefined)
+    {
+        await flowDynamic(`No encontré solicitudes registradas con tu numero de teléfono.`)
+    }
+    else await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n- *Barrio*: ${Barrio}\n- *Estado del reclamo*: ${Estado}`)
+    if (Estado == 'PENDIENTE')
+            {
+                await flowDynamic(`El estado de tu solicitud es *PENDIENTE*. Hemos cargado tu reclamo en nuestra base de datos y está pendiente a aprobación. Recordá que completar tu solicitud puede llevar un tiempo.`)
+            }
+            else if (Estado == 'COMPLETADO')
+            {
+                await flowDynamic(`El estado de tu solicitud es *COMPLETADO*. Resolvimos tu solicitud.`)
+    
+            }
+} catch (error) {
+    console.error('Error al manejar el caso de Teléfono indefinido:', error);
+    // Puedes manejar el error de la manera que prefieras
+}
+
+})
+/////////////////////       ESTA FUNCION CONSULTA LOS DATOS DE UNA FILA !SEGÚN EL TELÉFONO!    ////////////////////////
+   async function consultarDatos(telefono){
+    try {
+        await doc.useServiceAccountAuth({
+            client_email: CREDENTIALS.client_email,
+            private_key: CREDENTIALS.private_key
+        });
+        await doc.loadInfo();
+        let sheet = doc.sheetsByTitle['Hoja 1'];                        // AQUÍ DEBES PONER EL NOMBRE DE TU HOJA  
+        consultados = [];
+        let rows = await sheet.getRows();
+        try {
+            for (let index = 0; index < rows.length; index++) {
+                const row = rows[index];
+                if (row.Telefono === telefono) {
+                   
+                    consultados['Reclamo'] = row.Reclamo                      // AQUÍ LE PEDIMOS A LA FUNCION QUE CONSULTE LOS DATOS QUE QUEREMOS CONSULTAR EJEMPLO:
+                    consultados['Ubicacion'] = row.Ubicacion        
+                    consultados['Barrio'] = row.Barrio                  // consultados['EL NOMBRE QUE QUIERAS'] = row.NOMBRE DE LA COLUMNA DE SHEET
+                    consultados['Telefono'] = row.Telefono
+                    consultados['Edad'] = row.Edad
+                    consultados['Estado'] = row.Estado
+                }
+        
+        }
+        }catch (error) {
+            console.error('Error al manejar el caso de Teléfono indefinido:', error);
+            // Puedes manejar el error de la manera que prefieras
+        }
+            
+    return consultados
+    } catch (error) {
+        console.error('Error al consultar datos:', error);
+        throw error; // Vuelve a lanzar el error para que pueda ser manejado más arriba
+    }
+    
+};
+
 const flowReclamo = addKeyword('11', 'solicitud', 'reclamo', 'reclamos')
 .addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\nPor eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
 .addAnswer([
@@ -55,61 +192,6 @@ const flowReclamo = addKeyword('11', 'solicitud', 'reclamo', 'reclamos')
   });
 
 
-
-const flowConsultar = addKeyword('Consultar mis datos','🔍 Consultar mis datos 🔍')
-.addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:3000}, async (ctx, {flowDynamic}) =>{
-telefono = ctx.from
-
-const consultados = await consultarDatos(telefono)
-
-const Reclamo = consultados['Reclamo']                        // AQUI DECLARAMOS LAS VARIABLES CON LOS DATOS QUE NOS TRAEMOS DE LA FUNCION         VVVVVVVVV
-const Ubicacion = consultados['Ubicacion']
-const Barrio = consultados['Barrio']
-const Telefono = consultados['Telefono']
-const Estado = consultados['Estado']
-
-if (Telefono == undefined)
-{
-    await flowDynamic(`No encontré solicitudes registradas con tu numero de teléfono.`)
-}
-else await flowDynamic(`- *Reclamo*: ${Reclamo}\n- *Ubicación*: ${Ubicacion}\n- *Barrio*: ${Barrio}\n- *Estado del reclamo*: ${Estado}`)
-})
-/////////////////////       ESTA FUNCION CONSULTA LOS DATOS DE UNA FILA !SEGÚN EL TELÉFONO!    ////////////////////////
-   async function consultarDatos(telefono){
-    await doc.useServiceAccountAuth({
-        client_email: CREDENTIALS.client_email,
-        private_key: CREDENTIALS.private_key
-    });
-    await doc.loadInfo();
-    let sheet = doc.sheetsByTitle['Hoja 1'];                        // AQUÍ DEBES PONER EL NOMBRE DE TU HOJA  
-    consultados = [];
-    let rows = await sheet.getRows();
-    for (let index = 0; index < rows.length; index++) {
-        const row = rows[index];
-        if (row.Telefono === telefono) {
-           
-            consultados['Reclamo'] = row.Reclamo                      // AQUÍ LE PEDIMOS A LA FUNCION QUE CONSULTE LOS DATOS QUE QUEREMOS CONSULTAR EJEMPLO:
-            consultados['Ubicacion'] = row.Ubicacion        
-            consultados['Barrio'] = row.Barrio                  // consultados['EL NOMBRE QUE QUIERAS'] = row.NOMBRE DE LA COLUMNA DE SHEET
-            consultados['Telefono'] = row.Telefono
-            consultados['Edad'] = row.Edad
-            consultados['Estado'] = row.Estado
-        }
-        /*
-        if (row.Estado == 'PENDIENTE')
-        {
-            await flowDynamic(`El estado de tu solicitud es *PENDIENTE*. Hemos cargado tu reclamo en nuestra base de datos y está pendiente a aprobación. Recordá que completar tu solicitud puede llevar un tiempo.`)
-        }
-        else if (row.Estado == 'COMPLETADO')
-        {
-            await flowDynamic(`El estado de tu solicitud es *COMPLETADO*. Resolvimos tu solicitud.`)
-
-        }
-        */
-
-}          
-return consultados
-};
 
 const flowCeresito = addKeyword('ceresito', 'como usar ceresito')
 .addAnswer('Si es la primera vez que chateás conmigo, te cuento algo de mí así me conocés mejor.')
@@ -516,70 +598,7 @@ const flowTramites = addKeyword('Tramites', 'tramite', 'quiero hacer un tramite'
                 });
 
 
-const flowMenu = addKeyword('menu', 'menú')
-.addAnswer([
-            '¿Sobre qué necesitas saber? Te escucho',
-            '1. 👉 Trámites 🗃️',
-            '2. 👉 Licencia de conducir 🪪',
-            '3. 👉 Información sobre el CIC 🫂',
-            '4. 👉 Turismo 📸',
-            '5. 👉 Historia de Ceres 🏛',
-            '6. 👉 Separación y recolección de residuos ♻',
-            '7. 👉 Educación 📚',
-            '8. 👉 Actividades para adultos mayores 👵👴',
-            '9. 👉 Prevención del dengue 🦟',
-            '10. 👉 Cómo usar Ceresito 🤖',
-            '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
-        ],
 
-        { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
-            const option = ctx.body.toLowerCase().trim();
-        
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
-                await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
-        
-                await fallBack();
-                return;
-            }
-        
-            if (option === "1") {
-                return gotoFlow(flowTramites);
-            }
-        
-            if (option === "2") {
-                return gotoFlow(flowLicencias);
-            }
-        
-            if (option === "3") {
-                return gotoFlow(flowCIC);
-            }
-            if (option === "4") {
-                return gotoFlow(flowTurismo);
-            }
-            if (option === "5") {
-                return gotoFlow(flowHistoria);
-            }
-            if (option === "6") {
-                return gotoFlow(flowResiduos);
-            }
-            if (option === "7") {
-                return gotoFlow(flowEducacion);
-            }
-            if (option === "8") {
-                return gotoFlow(flowAdultosmayores);
-            }
-            if (option === "9") {
-                return gotoFlow(flowDengue);
-            }
-            if (option === "10") {
-                return gotoFlow(flowCeresito);
-            }
-            if (option === "11") {
-                return gotoFlow(flowReclamo);
-            }
-            
-        }
-    )
 
 
 const flowPrincipal = addKeyword('hola', 'buenos dias', 'buen dia', 'que tal', 'buenas tardes', 'buenas noches')
