@@ -1,7 +1,83 @@
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
+let errores = 0;
+
+const flowAyuda = addKeyword('ayuda')
+    .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
+    .addAnswer('Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones')
+    errores= 0;
+
+
+    const flowMenu = addKeyword('menu', 'menú')
+    .addAnswer([
+                '¿Sobre qué necesitas saber? Te escucho',
+                '1. 👉 Trámites 🗃️',
+                '2. 👉 Licencia de conducir 🪪',
+                '3. 👉 Información sobre el CIC 🫂',
+                '4. 👉 Turismo 📸',
+                '5. 👉 Historia de Ceres 🏛',
+                '6. 👉 Separación y recolección de residuos ♻',
+                '7. 👉 Educación 📚',
+                '8. 👉 Actividades para adultos mayores 👵👴',
+                '9. 👉 Prevención del dengue 🦟',
+                '10. 👉 Cómo usar Ceresito 🤖',
+                '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
+            ],
+    
+            { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
+                const option = ctx.body.toLowerCase().trim();
+            
+                if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+                    await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
+            
+                    await fallBack();
+                    return;
+                }
+            
+                if (option === "1") {
+                    return gotoFlow(flowTramites);
+                }
+            
+                if (option === "2") {
+                    return gotoFlow(flowLicencias);
+                }
+            
+                if (option === "3") {
+                    return gotoFlow(flowCIC);
+                }
+                if (option === "4") {
+                    return gotoFlow(flowTurismo);
+                }
+                if (option === "5") {
+                    return gotoFlow(flowHistoria);
+                }
+                if (option === "6") {
+                    return gotoFlow(flowResiduos);
+                }
+                if (option === "7") {
+                    return gotoFlow(flowEducacion);
+                }
+                if (option === "8") {
+                    return gotoFlow(flowAdultosmayores);
+                }
+                if (option === "9") {
+                    return gotoFlow(flowDengue);
+                }
+                if (option === "10") {
+                    return gotoFlow(flowCeresito);
+                }
+                if (option === "11") {
+                    return gotoFlow(flowReclamo);
+                }
+                
+            }
+        )
+    
+
 const flowCrearReclamo = require("./flujos/crearReclamo")
+// const flowAdultosmayores = require("./flujos/AdultosMayores")
+
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const fs = require('fs')
 const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
@@ -17,74 +93,9 @@ const {
     
 } = require('@bot-whatsapp/bot')
 
-let errores = 0;
 
 //////////////////////////// FLUJO PARA CONSULTAR DATOS /////////////////////////////////////////////////////////
 
-const flowMenu = addKeyword('menu', 'menú')
-.addAnswer([
-            '¿Sobre qué necesitas saber? Te escucho',
-            '1. 👉 Trámites 🗃️',
-            '2. 👉 Licencia de conducir 🪪',
-            '3. 👉 Información sobre el CIC 🫂',
-            '4. 👉 Turismo 📸',
-            '5. 👉 Historia de Ceres 🏛',
-            '6. 👉 Separación y recolección de residuos ♻',
-            '7. 👉 Educación 📚',
-            '8. 👉 Actividades para adultos mayores 👵👴',
-            '9. 👉 Prevención del dengue 🦟',
-            '10. 👉 Cómo usar Ceresito 🤖',
-            '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
-        ],
-
-        { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
-            const option = ctx.body.toLowerCase().trim();
-        
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
-                await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
-        
-                await fallBack();
-                return;
-            }
-        
-            if (option === "1") {
-                return gotoFlow(flowTramites);
-            }
-        
-            if (option === "2") {
-                return gotoFlow(flowLicencias);
-            }
-        
-            if (option === "3") {
-                return gotoFlow(flowCIC);
-            }
-            if (option === "4") {
-                return gotoFlow(flowTurismo);
-            }
-            if (option === "5") {
-                return gotoFlow(flowHistoria);
-            }
-            if (option === "6") {
-                return gotoFlow(flowResiduos);
-            }
-            if (option === "7") {
-                return gotoFlow(flowEducacion);
-            }
-            if (option === "8") {
-                return gotoFlow(flowAdultosmayores);
-            }
-            if (option === "9") {
-                return gotoFlow(flowDengue);
-            }
-            if (option === "10") {
-                return gotoFlow(flowCeresito);
-            }
-            if (option === "11") {
-                return gotoFlow(flowReclamo);
-            }
-            
-        }
-    )
 
 const flowConsultar = addKeyword('Consultar mis datos','🔍 Consultar mis datos 🔍')
 .addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:1000}, async (ctx, {flowDynamic}) =>{
@@ -221,10 +232,6 @@ const flowAgente = addKeyword('PELIGRO', {sensitive: true})
     ])
   })
 
-const flowAyuda = addKeyword('ayuda')
-    .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
-    .addAnswer('Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones')
-    errores= 0;
 
 const flowTramites = addKeyword('Tramites', 'tramite', 'quiero hacer un tramite')
   .addAnswer('Hacer trámites puede ser muy aburrido y estresante, por eso quiero facilitarte las cosas 💪')
