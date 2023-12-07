@@ -236,14 +236,15 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
   .addAnswer([
     'Ahora puedes hacer lo siguiente desde acá:',
     'Contame, ¿sobre qué necesitas saber?',
+    '\n\nEscribí el número del menú sobre el tema que te interese para continuar.\n\n',
     '1. 👉 Camino rural',
-    '2. 👉 Moratorias',
-    '\n\nEscribí el número del menú sobre el tema que te interese para continuar.',
+    '2. 👉 Moratorias\n',
+    '3. 👉 Cambiar de tema 🔄',
   ],
   )
   .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
     const opcion = ctx.body.toLowerCase().trim();
-    if (!["1", "2", "menu"].includes(opcion)) {
+    if (!["1", "2", "menu", "menú"].includes(opcion)) {
         errores++;
 
             if (errores > 2 )
@@ -260,7 +261,9 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         
       case '1': return flowDynamic('Si queres pagar este impuesto, hace clic acá 👇https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
       case '2': return flowDynamic('Si estás adherido a una moratoria y queres pagarla, hace clic acá 👇 https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
+      case '3': return gotoFlow(flowMenu)
       case 'menu': return gotoFlow(flowMenu)
+      case 'menú': return gotoFlow(flowMenu)
       default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
     }
   });
@@ -281,13 +284,13 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     'Elegí una de estas opciones y seguimos:',
     '1. 👉 Requisitos para sacar la licencia de conducir',
     '2. 👉 Sacar turno',
-
+    '3. 👉 Cambiar de tema 🔄',
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
    ])
 
       .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1"," 2", "menú", "menu"].includes(opcion)) {
+        if (!["1"," 2", "3", "menú", "menu"].includes(opcion)) {
             errores++;
 
             if (errores > 2 )
@@ -303,9 +306,9 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         switch (opcion) {
           case '1': return flowDynamic('Toda la info sobre licencias, como tipo de licencias, requisitos, renovación, pérdida y más, lo encontras acá 👇 https://ceres.gob.ar/turnos/ \n\n Escribí *Licencias* para volver al menú anterior o *Menú* para volver al menú principal.');
           case '2': return flowDynamic('Ahora podes sacar tu turno desde acá 👇 https://ceres.gob.ar/turnos/ \n\n Escribí *Licencias* para volver al menú anterior o *Menú* para volver al menú principal.');
+          case '3': return gotoFlow(flowMenu)
           case 'menu': return gotoFlow(flowMenu)
           case 'menú': return gotoFlow(flowMenu)
-
         }
       });
     
@@ -320,13 +323,14 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '1. 👉 Salud 👩‍⚕️',
     '2. 👉 Acción social 🤝',
     '3. 👉 Género y diversidad 💜',
+    'X. 👉 Cambiar de tema 🔄',
 
     '\n\n Elegí alguna de esas opciones y te ayudo. ',
 
     ],{delay: 3000})
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "3", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "menu", "menú", "x"].includes(opcion)) {
             errores++;
 
             if (errores > 3 )
@@ -342,6 +346,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('En el CIC ofrecemos los siguientes servicios de salud 🩺\n\n Odontología \n Ginecología \n Médica clínica \n Obstetricia \n Pediatría \n Servicio de enfermería\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return flowDynamic('Si necesitas ayuda con trámites, en el CIC te orientamos en: \n\n Retención del 20% de AUH \n Tarifa social \n Tarifa de servicio \n Becas Progresar \n Adultos 2000, plan para finalizar la secundaria \n Asesoramiento e inicio de trámites previsionales\n\n Para más info, acercate a Avenida Perón y Pje. Melián 📍\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '3': return gotoFlow(flowGenero);
+        case 'x': return gotoFlow(flowGenero);
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -367,6 +372,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '1. 👉 Información del área',
     '2. 👉 Información del programa “Mujer segura”',
     '3. 👉 Guardia 24 horas equipo local',
+    'X. 👉 Volver al menú anterior 🔄',
 
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
@@ -374,7 +380,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         const opcion = ctx.body.toLowerCase().trim();
 
         
-        if (!["1", "2", "3", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "x", "menu", "menú"].includes(opcion)) {
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
     
             await gotoFlow(flowGenero);
@@ -384,6 +390,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('Desde el área de género y diversidad, brindamos ayuda y asesoramiento a personas que sufren algún tipo de violencia por su género y/o condición 💜 \n\n Tenemos como fin la creación y puesta en acción de políticas públicas orientadas a promover, prevenir y erradicar cualquier tipo y todas las vulneraciones de derechos en infancias, adolescencias, familias, mujeres y diversidades sexuales \n Si queres conocer más sobre esta área o si necesitas ayuda, podes acercarte al CIC (Avenida Perón y Pje. Melián) o contactate al 3491560492 / 03491422353 🤳 \n\nEscribí *Genero* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return gotoFlow(flowMujerSegura)
         case '3': return gotoFlow(flowNumeroGuardialocal)
+        case 'x': return gotoFlow(flowCIC)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -425,13 +432,13 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '2. 👉 Bares y restaurantes',
     '3. 👉 Atractivos turísticos',
     '4. 👉 Programación Usina cultural Ceres',
-
+    '5. 👉 Cambiar de tema 🔄',
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
     .addAction({ capture: true }, async (ctx, { flowDynamic, provider, gotoFlow, endFlow}) => {
         const id = ctx.key.remoteJid;
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "3", "4", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "4", "5", "menu", "menú"].includes(opcion)) {
             errores++;
 
             if (errores > 2 )
@@ -449,6 +456,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '2': return provider.sendImage(id, 'media/comedores.png', 'Todos los bares y restaurantes de Ceres, en esta placa 🍹 \n\nEscribí *Turismo* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '3': return provider.sendImage(id, 'media/atractivos.png', 'Todos los puntos turísticos y recreativos de Ceres, en esta placa 📸 \n\nEscribí *Turismo* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '4': return flowDynamic('🎬 Para conocer qué hay este fin de semana en la Usina cultural Ceres, entrá a las redes sociales oficiales\n\nInstagram: https://instagram.com/ceresturismo \nFacebook: https://facebook.com/ceresturismo\n\nEscribí *Turismo* para volver al menú anterior o *Menú* para volver al menú principal.');
+        case '5': return gotoFlow(flowMenu)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -488,12 +496,13 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '1. 👉 Separación y recolección residuos domiciliarios ♻️',
     '2. 👉 Separación y recolección residuos de patio 🍂',
     '3. 👉 Info sobre la Cooperativa de Trabajo “Reciclar Ceres” 💪',
+    '4. 👉 Cambiar de tema 🔄',
 
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow,  }) => {
         const opcionresiduos = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "3", "menu", "menú"].includes(opcionresiduos)) {
+        if (!["1", "2", "3", "4", "menu", "menú"].includes(opcionresiduos)) {
             errores++;
 
             if (errores > 2 )
@@ -508,6 +517,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('Recorda sacar los residuos de la siguiente manera 👇 \n\n Residuos secos \n 📆 Los recogemos martes y viernes (sacalos la noche del lunes y del jueves) \n\n Residuos húmedos \n📆 Los recogemos lunes, miércoles, jueves y sábado \n\n\n *Algo muy importante: no dejes tus residuos en los pilares de luz porque no podremos recogerlos ‼️* \n\nEscribí *Residuos* para volver al menú anterior o *Menú* para volver al menú principal.');              
         case '2': return gotoFlow(flowSeccionesPatio);
         case '3': return flowDynamic('Hace muy poco, en nuestra ciudad se conformó legalmente, gracias al acompañamiento del municipio, la cooperativa de trabajo “Reciclar Ceres” ♻️\n\n Se trata de un paso súper importante ya que les brinda nuevas oportunidades para su desarrollo y crecimiento económico y profesional. Con su constitución tienen más independencia en sus acciones, podrán acceder a créditos y subsidios; contar con más estabilidad laboral, entre otras cuestiones 💪\n\n Cuando separas los residuos correctamente, colaboras con las personas de esta cooperativa, que trabajan diariamente en el Centro de Disposición Final. ¡Hacelo por el planeta, por vos y por ellos! 💚 \n\nEscribí *Residuos* para volver al menú anterior o *Menú* para volver al menú principal.');
+        case '4': return gotoFlow(flowMenu)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
     }
@@ -519,11 +529,12 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     .addAnswer(['¿Sobre qué queres saber? 👇',
     '1. 👉 Tecnicaturas de la UTN en Ceres',
     '2. 👉 Robótica y Club de Ciencias',
+    '3. 👉 Cambiar de tema 🔄',
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "menu", "menú"].includes(opcion)) {
             errores++;
 
             if (errores > 2 )
@@ -537,6 +548,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         switch (opcion) {
         case '1': return flowDynamic('¡Genial! En Ceres podes cursar dos carreras con mucha salida laboral \n\n Tecnicatura en Administración Rural 📚 \n Tecnicatura en Programación 📚 \n\n Toda la información sobre estas carreras pertenecientes a la UTN, la encontras en este instagram 👇 https://instagram.com/utnceresextension \n\nEscribí *Educación* para volver al menú anterior o *Menú* para volver al menú principal.');              
         case '2': return flowDynamic('El Club de Ciencias fue una gestión realizada por el municipio y permite que niños, jóvenes y adolescentes puedan capacitarse en robótica 🤖 \n\n Si queres más información, contactate al 03491-421990 📞 \n\nEscribí *Educación* para volver al menú anterior o *Menú* para volver al menú principal.');
+        case '3': return gotoFlow(flowMenu)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
     }
@@ -596,12 +608,13 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     .addAnswer(['¿Sobre qué queres saber? 👇',
     '1. 👉 Consejo de Adultos Mayores 📣',
     '2. 👉 Actividades recreativas para adultos mayores 🧑‍🦳',
+    '3. 👉 Cambiar de tema 🔄',
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
 
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3","menu", "menú"].includes(opcion)) {
             errores++;
 
             if (errores > 2 )
@@ -616,8 +629,9 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
 
         errores = 0;
         switch (opcion) {
-        case '1': return gotoFlow(flowConsejoAdultos);              
-        case '2': return gotoFlow(flowActividadesAdultos);
+        case '1': return gotoFlow(flowConsejoAdultos);             
+        case '2': return gotoFlow(flowActividadesAdultos)
+        case '3': return gotoFlow(flowMenu)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -671,7 +685,7 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buen dia', 'que tal', 
         { delay: 4000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
             const option = ctx.body.toLowerCase().trim();
         
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
                 await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
         
                 await fallBack();
@@ -710,9 +724,7 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buen dia', 'que tal', 
             if (option === "10") {
                 return gotoFlow(flowCeresito);
             }
-            if (option === "11") {
-                return gotoFlow(flowReclamo);
-            }
+            
         }
     )
 
