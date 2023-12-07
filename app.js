@@ -236,7 +236,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
   .addAnswer([
     'Ahora puedes hacer lo siguiente desde acá:',
     'Contame, ¿sobre qué necesitas saber?',
-    '\n\nEscribí el número del menú sobre el tema que te interese para continuar.\n\n',
+    'Escribí el número del menú sobre el tema que te interese para continuar.\n\n',
     '1. 👉 Camino rural',
     '2. 👉 Moratorias\n',
     '3. 👉 Cambiar de tema 🔄',
@@ -244,7 +244,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
   )
   .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
     const opcion = ctx.body.toLowerCase().trim();
-    if (!["1", "2", "menu", "menú"].includes(opcion)) {
+    if (!["1", "2", "3", "menu", "menú"].includes(opcion)) {
         errores++;
 
             if (errores > 2 )
