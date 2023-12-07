@@ -46,7 +46,7 @@ const flowAyuda = addKeyword('ayuda')
             { delay: 1000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
                 const option = ctx.body.toLowerCase().trim();
             
-                if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+                if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", , "11", "hola", "genero", "género", "menú", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
                     await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
             
                     await fallBack();
@@ -367,7 +367,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     .addAnswer('Si queres más información, hace clic acá 👇 https://ceres.gob.ar/programamujersegura/ ')
     
     
-    const flowGenero = addKeyword('Genero')
+    const flowGenero = addKeyword(['Genero', 'género'])
     .addAnswer(['Decime qué necesitas saber 👇',
     '1. 👉 Información del área',
     '2. 👉 Información del programa “Mujer segura”',
@@ -685,7 +685,7 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buen dia', 'que tal', 
         { delay: 4000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
             const option = ctx.body.toLowerCase().trim();
         
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "genero", "género", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
                 await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
         
                 await fallBack();
