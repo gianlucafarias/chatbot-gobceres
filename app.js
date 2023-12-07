@@ -25,6 +25,38 @@ const {
 const flowAyuda = addKeyword('ayuda')
     .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
     .addAnswer(['Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones'])
+    .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
+        const opcion = ctx.body.toLowerCase().trim();
+        if (!["tramites", "trámites", "cic", "género", "genero", "licencia", "licencias", "menu", "menú"].includes(opcion)) {
+            errores++;
+    
+                if (errores > 2 )
+                {
+                    return gotoFlow(flowAyuda);
+    
+                }
+            await flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
+    
+            await gotoFlow(flowTramites);
+            return;
+        }
+        switch (opcion) {
+            
+          case 'cic': return gotoFlow(flowCIC)
+          case 'tramites': return gotoFlow(flowTramites)
+          case 'tramite': return gotoFlow(flowTramites)
+          case 'trámite': return gotoFlow(flowTramites)
+          case 'trámites': return gotoFlow(flowTramites)
+          case 'genero': return gotoFlow(flowGenero)
+          case 'género': return gotoFlow(flowGenero)
+          case 'licencia': return gotoFlow(flowLicencias)
+          case 'licencias': return gotoFlow(flowLicencias)
+          case 'menú': return gotoFlow(flowMenu)
+          default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
+        }
+      });
+    flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
+
     errores= 0;
 
     const flowMenu = addKeyword(['menu', 'menú'])
@@ -167,7 +199,7 @@ try {
     
 };
 
-const flowReclamo = addKeyword('11')
+const flowReclamo = addKeyword('console')
 .addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\nPor eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
 .addAnswer([
     'Ahora podés solicitar un reclamo y consultar el estado de tu solicitud acá:',
@@ -682,7 +714,7 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buen dia', 'que tal', 
             '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
         ],
 
-        { delay: 4000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
+        { delay: 2000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
             const option = ctx.body.toLowerCase().trim();
         
             if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "genero", "género", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
