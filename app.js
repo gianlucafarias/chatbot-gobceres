@@ -238,7 +238,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     'Contame, ¿sobre qué necesitas saber?',
     'Escribí el número del menú sobre el tema que te interese para continuar.\n\n',
     '1. 👉 Camino rural',
-    '2. 👉 Moratorias\n',
+    '2. 👉 Moratorias',
     '3. 👉 Cambiar de tema 🔄',
   ],
   )
