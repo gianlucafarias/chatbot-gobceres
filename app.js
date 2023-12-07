@@ -323,14 +323,14 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '1. 👉 Salud 👩‍⚕️',
     '2. 👉 Acción social 🤝',
     '3. 👉 Género y diversidad 💜',
-    'X. 👉 Cambiar de tema 🔄',
+    '4. 👉 Cambiar de tema 🔄',
 
-    '\n\n Elegí alguna de esas opciones y te ayudo. ',
+    '\n\n Elegí alguna de esas opciones y te ayudo.',
 
     ],{delay: 3000})
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "3", "menu", "menú", "x"].includes(opcion)) {
+        if (!["1", "2", "3", "4", "menu", "menú", "x"].includes(opcion)) {
             errores++;
 
             if (errores > 3 )
@@ -346,7 +346,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('En el CIC ofrecemos los siguientes servicios de salud 🩺\n\n Odontología \n Ginecología \n Médica clínica \n Obstetricia \n Pediatría \n Servicio de enfermería\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return flowDynamic('Si necesitas ayuda con trámites, en el CIC te orientamos en: \n\n Retención del 20% de AUH \n Tarifa social \n Tarifa de servicio \n Becas Progresar \n Adultos 2000, plan para finalizar la secundaria \n Asesoramiento e inicio de trámites previsionales\n\n Para más info, acercate a Avenida Perón y Pje. Melián 📍\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '3': return gotoFlow(flowGenero);
-        case 'x': return gotoFlow(flowGenero);
+        case '4': return gotoFlow(flowGenero);
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -372,7 +372,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
     '1. 👉 Información del área',
     '2. 👉 Información del programa “Mujer segura”',
     '3. 👉 Guardia 24 horas equipo local',
-    'X. 👉 Volver al menú anterior 🔄',
+    '4. 👉 Volver al menú anterior 🔄',
 
     '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
     ],)
@@ -380,7 +380,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         const opcion = ctx.body.toLowerCase().trim();
 
         
-        if (!["1", "2", "3", "x", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "4", "menu", "menú"].includes(opcion)) {
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
     
             await gotoFlow(flowGenero);
@@ -390,7 +390,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('Desde el área de género y diversidad, brindamos ayuda y asesoramiento a personas que sufren algún tipo de violencia por su género y/o condición 💜 \n\n Tenemos como fin la creación y puesta en acción de políticas públicas orientadas a promover, prevenir y erradicar cualquier tipo y todas las vulneraciones de derechos en infancias, adolescencias, familias, mujeres y diversidades sexuales \n Si queres conocer más sobre esta área o si necesitas ayuda, podes acercarte al CIC (Avenida Perón y Pje. Melián) o contactate al 3491560492 / 03491422353 🤳 \n\nEscribí *Genero* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return gotoFlow(flowMujerSegura)
         case '3': return gotoFlow(flowNumeroGuardialocal)
-        case 'x': return gotoFlow(flowCIC)
+        case '4': return gotoFlow(flowCIC)
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
