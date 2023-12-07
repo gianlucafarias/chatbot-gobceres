@@ -35,10 +35,8 @@ const flowAyuda = addKeyword('ayuda')
                     return gotoFlow(flowAyuda);
     
                 }
-            await flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
+            return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
     
-            await gotoFlow(flowTramites);
-            return;
         }
         switch (opcion) {
             
