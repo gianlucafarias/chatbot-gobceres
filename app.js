@@ -55,7 +55,6 @@ const flowAyuda = addKeyword('ayuda')
           default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
         }
       });
-    flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
 
     errores= 0;
 
