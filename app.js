@@ -376,7 +376,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         case '1': return flowDynamic('En el CIC ofrecemos los siguientes servicios de salud 🩺\n\n Odontología \n Ginecología \n Médica clínica \n Obstetricia \n Pediatría \n Servicio de enfermería\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return flowDynamic('Si necesitas ayuda con trámites, en el CIC te orientamos en: \n\n Retención del 20% de AUH \n Tarifa social \n Tarifa de servicio \n Becas Progresar \n Adultos 2000, plan para finalizar la secundaria \n Asesoramiento e inicio de trámites previsionales\n\n Para más info, acercate a Avenida Perón y Pje. Melián 📍\n\n Escribí *CIC* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '3': return gotoFlow(flowGenero);
-        case '4': return gotoFlow(flowGenero);
+        case '4': return gotoFlow(flowMenu);
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         }
@@ -417,7 +417,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
             return;
         }
         switch (opcion) {
-        case '1': return flowDynamic('Desde el área de género y diversidad, brindamos ayuda y asesoramiento a personas que sufren algún tipo de violencia por su género y/o condición 💜 \n\n Tenemos como fin la creación y puesta en acción de políticas públicas orientadas a promover, prevenir y erradicar cualquier tipo y todas las vulneraciones de derechos en infancias, adolescencias, familias, mujeres y diversidades sexuales \n Si queres conocer más sobre esta área o si necesitas ayuda, podes acercarte al CIC (Avenida Perón y Pje. Melián) o contactate al 3491560492 / 03491422353 🤳 \n\nEscribí *Genero* para volver al menú anterior o *Menú* para volver al menú principal.');
+        case '1': return flowDynamic('Desde el área de género y diversidad, brindamos ayuda y asesoramiento a personas que sufren algún tipo de violencia por su género y/o condición 💜\n\nTenemos como fin la creación y puesta en acción de políticas públicas orientadas a promover, prevenir y erradicar cualquier tipo y todas las vulneraciones de derechos en infancias, adolescencias, familias, mujeres y diversidades sexuales \n Si queres conocer más sobre esta área o si necesitas ayuda, podes acercarte al CIC (Avenida Perón y Pje. Melián) o contactate al 3491560492 / 03491422353 🤳 \n\nEscribí *Genero* para volver al menú anterior o *Menú* para volver al menú principal.');
         case '2': return gotoFlow(flowMujerSegura)
         case '3': return gotoFlow(flowNumeroGuardialocal)
         case '4': return gotoFlow(flowCIC)
@@ -685,7 +685,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
 
 
 
-const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buen dia', 'que tal', 'buenas tardes', 'buenas noches'])
+const flowPrincipal = addKeyword(EVENTS.WELCOME)
     .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
         const sock = await provider.getInstance();
         const msgPoll = {
