@@ -391,7 +391,7 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
 
       .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1"," 2", "3", "menú", "menu"].includes(opcion)) {
+        if (!["1","2", "3", "menú", "menu"].includes(opcion)) {
             errores++;
 
             if (errores > 2 )
