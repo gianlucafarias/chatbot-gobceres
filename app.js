@@ -20,78 +20,6 @@ const {
 } = require('@bot-whatsapp/bot')
 
 
-const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
-    .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
-        const sock = await provider.getInstance();
-        const msgPoll = {
-        sticker: {
-        url:
-        "media/ceresito.webp"
-        }
-        };
-        sock.sendMessage(ctx.key.remoteJid, msgPoll)
-        })
-    
-    .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
-            'Contame, ¿sobre qué necesitas saber?',
-            '1. 👉 Trámites 🗃️',
-            '2. 👉 Licencia de conducir 🪪',
-            '3. 👉 Información sobre el CIC 🫂',
-            '4. 👉 Turismo 📸',
-            '5. 👉 Historia de Ceres 🏛',
-            '6. 👉 Separación y recolección de residuos ♻',
-            '7. 👉 Educación 📚',
-            '8. 👉 Actividades para adultos mayores 👵👴',
-            '9. 👉 Prevención del dengue 🦟',
-            '10. 👉 Cómo usar Ceresito 🤖',
-            '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
-        ],
-
-        { delay: 2000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
-            const option = ctx.body.toLowerCase().trim();
-        
-            if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "genero", "género", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
-                await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
-        
-                await fallBack();
-                return;
-            }
-        
-            if (option === "1") {
-                return gotoFlow(flowTramites);
-            }
-        
-            if (option === "2") {
-                return gotoFlow(flowLicencias);
-            }
-        
-            if (option === "3") {
-                return gotoFlow(flowCIC);
-            }
-            if (option === "4") {
-                return gotoFlow(flowTurismo);
-            }
-            if (option === "5") {
-                return gotoFlow(flowHistoria);
-            }
-            if (option === "6") {
-                return gotoFlow(flowResiduos);
-            }
-            if (option === "7") {
-                return gotoFlow(flowEducacion);
-            }
-            if (option === "8") {
-                return gotoFlow(flowAdultosmayores);
-            }
-            if (option === "9") {
-                return gotoFlow(flowDengue);
-            }
-            if (option === "10") {
-                return gotoFlow(flowCeresito);
-            }
-            
-        }
-    )
 
 const flowAyuda = addKeyword('ayuda')
     .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
@@ -193,7 +121,79 @@ const flowAyuda = addKeyword('ayuda')
             }
         )
     
-
+        const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
+        .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
+            const sock = await provider.getInstance();
+            const msgPoll = {
+            sticker: {
+            url:
+            "media/ceresito.webp"
+            }
+            };
+            sock.sendMessage(ctx.key.remoteJid, msgPoll)
+            })
+        
+        .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
+                'Contame, ¿sobre qué necesitas saber?',
+                '1. 👉 Trámites 🗃️',
+                '2. 👉 Licencia de conducir 🪪',
+                '3. 👉 Información sobre el CIC 🫂',
+                '4. 👉 Turismo 📸',
+                '5. 👉 Historia de Ceres 🏛',
+                '6. 👉 Separación y recolección de residuos ♻',
+                '7. 👉 Educación 📚',
+                '8. 👉 Actividades para adultos mayores 👵👴',
+                '9. 👉 Prevención del dengue 🦟',
+                '10. 👉 Cómo usar Ceresito 🤖',
+                '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
+            ],
+    
+            { delay: 2000, capture: true }, async (ctx, { fallBack, gotoFlow, flowDynamic }) => {
+                const option = ctx.body.toLowerCase().trim();
+            
+                if (!["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "hola", "menu", "genero", "género", "peligro", "tramites", "tramite", "licencia", "cic", "turismo", "educacion", "historia", "separacion", "adultos mayores", "actividades", "reclamo","dengue", "ayuda"].includes(option)) {
+                    await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
+            
+                    await fallBack();
+                    return;
+                }
+            
+                if (option === "1") {
+                    return gotoFlow(flowTramites);
+                }
+            
+                if (option === "2") {
+                    return gotoFlow(flowLicencias);
+                }
+            
+                if (option === "3") {
+                    return gotoFlow(flowCIC);
+                }
+                if (option === "4") {
+                    return gotoFlow(flowTurismo);
+                }
+                if (option === "5") {
+                    return gotoFlow(flowHistoria);
+                }
+                if (option === "6") {
+                    return gotoFlow(flowResiduos);
+                }
+                if (option === "7") {
+                    return gotoFlow(flowEducacion);
+                }
+                if (option === "8") {
+                    return gotoFlow(flowAdultosmayores);
+                }
+                if (option === "9") {
+                    return gotoFlow(flowDengue);
+                }
+                if (option === "10") {
+                    return gotoFlow(flowCeresito);
+                }
+                
+            }
+        )
+    
 
 
 const flowConsultar = addKeyword(['Consultar mis datos','🔍 Consultar mis datos 🔍'])
