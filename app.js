@@ -132,7 +132,10 @@
             
         
             const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
-            .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
+            .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { state, provider } ) => {
+                await state.update({name: ctx.pushName})
+                const myState = getMyState()
+                flowDynamic(`Este es tu nombre ${myState.name} `)
                 const sock = await provider.getInstance();
                 const msgPoll = {
                 sticker: {
