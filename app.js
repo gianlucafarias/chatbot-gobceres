@@ -132,10 +132,9 @@
             
         
             const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
-            async (ctx, { provider } ) => {
+            .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
                 const nombre = ctx.pushName
                 console.log(nombre)
-                flowDynamic(`Este es tu nombre ${nombre} `)
                 const sock = await provider.getInstance();
                 const msgPoll = {
                 sticker: {
@@ -144,7 +143,7 @@
                 }
                 };
                 sock.sendMessage(ctx.key.remoteJid, msgPoll)
-               
+                })
             
             .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
                     'Contame, ¿sobre qué necesitas saber?',
@@ -206,7 +205,7 @@
                     
                 }
             )
-        }
+        
             const flowPrincipalNombre = addKeyword(["nombre"])
             async (ctx, { state, provider } ) => {
                 await state.update({name: ctx.pushName})
