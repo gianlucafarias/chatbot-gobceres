@@ -207,7 +207,7 @@
             )
         
             const flowPrincipalNombre = addKeyword(["nombre"])
-            async (ctx, { state, provider } ) => {
+            .addAction (async (ctx, { state, provider } ) => {
                 await state.update({name: ctx.pushName})
                 const myState = getMyState()
                 .flowDynamic(`🙌 ¡Hola ${myState.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
@@ -220,7 +220,7 @@
                 };
                 sock.sendMessage(ctx.key.remoteJid, msgPoll)
                 
-            }
+            })
 
     const flowConsultar = addKeyword(['Consultar mis datos','🔍 Consultar mis datos 🔍'])
     .addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:1000}, async (ctx, {flowDynamic}) =>{
