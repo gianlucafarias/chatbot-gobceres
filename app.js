@@ -20,7 +20,9 @@
         
     } = require('@bot-whatsapp/bot')
 
-   
+
+
+
     const flowAyuda = addKeyword('ayuda')
         .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
         .addAnswer(['Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones'])
@@ -128,8 +130,6 @@
                 }
             )
             
-            
-        
             const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
             .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
                 const nombre = ctx.pushName
@@ -361,8 +361,8 @@
             return;
         }
         switch (opcion) {
-        case '1': return flowDynamic(flowMenu);
-        case '2': return flowDynamic(flowCeresito);
+        case '1': return gotoFlow(flowMenu);
+        case '2': return gotoFlow(flowCeresito);
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
         default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
