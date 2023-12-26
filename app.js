@@ -58,8 +58,8 @@
         errores= 0;
 
         const flowMenu = addKeyword(['menu', 'menú'])
-        .addAnswer([
-                    '¿Sobre qué necesitas saber? Te escucho',
+        .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
+                    'Contame, ¿Sobre qué necesitas saber?',
                     '1. 👉 Trámites 🗃️',
                     '2. 👉 Licencia de conducir 🪪',
                     '3. 👉 Información sobre el CIC 🫂',
