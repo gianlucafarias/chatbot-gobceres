@@ -342,8 +342,8 @@
 
     .addAnswer(['¿Estás listo para charlar?\n',
                 'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal.\n',
-                '1. Si. ¡Comencemos!',
-                '2. Todavía tengo dudas, ¿Podrías darme más información?'
+                '1. 👉 Si. ¡Comencemos!',
+                '2. 👉 Todavía tengo dudas, ¿Podrías darme más información?'
     ],{delay: 3000})
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
@@ -357,11 +357,10 @@
                 }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
-            await gotoFlow(flowTramites);
+            await gotoFlow(flowCeresito);
             return;
         }
         switch (opcion) {
-            
         case '1': return flowDynamic(flowMenu);
         case '2': return flowDynamic(flowCeresito);
         case 'menu': return gotoFlow(flowMenu)
