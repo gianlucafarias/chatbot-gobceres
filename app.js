@@ -20,8 +20,7 @@
         
     } = require('@bot-whatsapp/bot')
 
-
-
+   
     const flowAyuda = addKeyword('ayuda')
         .addAnswer('Parece que no encuentro la opción que buscas. ¿Necesitas ayuda?')
         .addAnswer(['Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones'])
@@ -208,8 +207,8 @@
         
             const flowPrincipalNombre = addKeyword(["nombre"])
             .addAction (async (ctx, { state, provider } ) => {
+                const myState = state.getMyState(); 
                 await state.update({name: ctx.pushName})
-                const myState = getMyState()
                 .flowDynamic(`🙌 ¡Hola ${myState.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
                 const sock = provider.getInstance();
                 const msgPoll = {
