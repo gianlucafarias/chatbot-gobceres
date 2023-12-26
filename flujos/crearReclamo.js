@@ -48,6 +48,7 @@ async (ctx,{flowDynamic}) =>{
    
 telefono = ctx.from
 ubicacion = STATUS[telefono] = {...STATUS[telefono], ubicacion : ctx.body}
+nombre = STATUS[telefono] = {...STATUS[telefono], nombre : ctx.pushName}
 flowDynamic()
 })
 .addAnswer(
@@ -66,7 +67,7 @@ flowDynamic()
     console.log(STATUS[telefono].sexo)
     let rows = [{
    // Ejemplo: // CABECERA DE SHEET : VARIABLE        //                             ➡️   Paso 3 - Aquí añades las variables creadas
-   
+    Nombre: STATUS[telefono].nombre,
     Reclamo: STATUS[telefono].reclamo,    
     Ubicacion: STATUS[telefono].ubicacion,
     Barrio: STATUS[telefono].barrio,
