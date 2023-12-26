@@ -206,8 +206,9 @@
         
             const flowPrincipalNombre = addKeyword(["nombre"])
             async (ctx, { state, provider } ) => {
-                state.update({name: ctx.pushName})
-                .addAnswer(`🙌 ¡Hola ${state.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
+                await state.update({name: ctx.pushName})
+                const myState = getMyState()
+                .flowDynamic(`🙌 ¡Hola ${myState.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
                 const sock = provider.getInstance();
                 const msgPoll = {
                 sticker: {
