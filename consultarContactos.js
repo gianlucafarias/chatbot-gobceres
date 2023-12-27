@@ -3,6 +3,7 @@ const fs = require('fs')
 const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
 const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
 const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
+const moment = require('moment');  // Importar la biblioteca moment
 
 
 
@@ -12,6 +13,10 @@ async function cargarHoja() {
         private_key: CREDENTIALS.private_key
     });
     await doc.loadInfo();
+}
+
+function obtenerFechaHoraActual() {
+    return moment().format('YYYY-MM-DD HH:mm:ss');
 }
 
 // Buscar nombre y teléfono en la hoja
@@ -27,7 +32,11 @@ async function consultarContactos(nombre, telefono) {
 
     if (!coincidencia) {
         // Si no hay coincidencia, agregar una nueva fila
-        await sheet.addRow({ Nombre: nombre, Telefono: telefono });
+        await sheet.addRow({
+            Nombre: nombre,
+            Telefono: telefono,
+            Registro: obtenerFechaHoraActual()  // Nueva columna para la fecha y hora de registro
+        });
         consultados = { Nombre: nombre, Telefono: telefono };
     } else {
         // Si hay coincidencia, no hacer nada
