@@ -131,9 +131,26 @@
             )
             
             const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
-            .addAnswer('🙌 ¡Hola! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒', null, async (ctx, { provider } ) => {
-                const nombre = ctx.pushName
-                console.log(nombre)
+            .addAction(
+                async (ctx, { flowDynamic, state, provider }) => {
+                    const nombre = ctx.pushName
+                    try {await flowDynamic(`¡Hola ${nombre}! Soy Ceresito, el Chatbot del Gobierno de la Ciudad de Ceres`)
+                    console.log(nombre)
+                    const sock = await provider.getInstance();
+                    const msgPoll = {
+                    sticker: {
+                    url:
+                    "media/ceresito.webp"
+                    }
+                    };
+                    sock.sendMessage(ctx.key.remoteJid, msgPoll)}
+                    catch(error) {
+                        console.log(error)
+                    }
+                }
+                    )
+                    /*
+            .addAnswer('', null, async (ctx, { provider } ) => {
                 const sock = await provider.getInstance();
                 const msgPoll = {
                 sticker: {
@@ -143,7 +160,7 @@
                 };
                 sock.sendMessage(ctx.key.remoteJid, msgPoll)
                 })
-            
+            */
             .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
                     'Contame, ¿sobre qué necesitas saber?',
                     '1. 👉 Trámites 🗃️',
