@@ -210,15 +210,6 @@
                 const myState = state.getMyState(); 
                 await state.update({name: ctx.pushName})
                 .flowDynamic(`🙌 ¡Hola ${myState.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
-                const sock = provider.getInstance();
-                const msgPoll = {
-                sticker: {
-                url:
-                "media/ceresito.webp"
-                }
-                };
-                sock.sendMessage(ctx.key.remoteJid, msgPoll)
-                
             })
 
     const flowConsultar = addKeyword(['Consultar mis datos','🔍 Consultar mis datos 🔍'])
@@ -344,7 +335,8 @@
                 'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal.\n',
                 '1. 👉 Si. ¡Comencemos!',
                 '2. 👉 Todavía tengo dudas, ¿Podrías darme más información?'
-    ],{delay: 3000})
+    ],
+    )
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
         if (!["1", "2", "menu", "menú"].includes(opcion)) {
