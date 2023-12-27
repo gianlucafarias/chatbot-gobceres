@@ -208,8 +208,9 @@
             const flowPrincipalNombre = addKeyword(["nombre"])
             .addAction (async (ctx, { state, provider } ) => {
                 const myState = state.getMyState(); 
-                await state.update({name: ctx.pushName})
+                state.update({name: ctx.pushName})
                 .flowDynamic(`🙌 ¡Hola ${myState.name}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
+
             })
 
     const flowConsultar = addKeyword(['Consultar mis datos','🔍 Consultar mis datos 🔍'])
