@@ -364,8 +364,7 @@
 
     .addAnswer(['¿Estás listo para charlar?\n',
                 'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal.\n',
-                '1. 👉 Si. ¡Comencemos!',
-                '2. 👉 Todavía tengo dudas, ¿Podrías darme más información?',
+                '\n\n Escribí la palabra *Menú* para comenzar',
     ])
     .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow  }) => {
         const opcion = ctx.body.toLowerCase().trim();
