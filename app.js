@@ -9,6 +9,7 @@
     const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
     const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
     const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
+    const { constularContactos } = require('./constularContactos');
     const {
         createBot,
         createProvider,
@@ -134,6 +135,7 @@
             .addAction(
                 async (ctx, { flowDynamic, state, provider }) => {
                     const nombre = ctx.pushName
+                    const telefono = ctx.from
                     try {await flowDynamic(`¡Hola ${nombre}! Soy Ceresito, el Chatbot del Gobierno de la Ciudad de Ceres`)
                     console.log(nombre)
                     const sock = await provider.getInstance();
@@ -143,7 +145,15 @@
                     "media/ceresito.webp"
                     }
                     };
-                    sock.sendMessage(ctx.key.remoteJid, msgPoll)}
+                    sock.sendMessage(ctx.key.remoteJid, msgPoll)
+                    constularContactos(nombre, telefono)
+                        .then(result => {
+                            console.log('Información consultada o registrada:', result);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
                     catch(error) {
                         console.log(error)
                     }
