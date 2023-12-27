@@ -208,9 +208,10 @@
             
             const flowPrincipalNombre = addKeyword(["nombre"])
             .addAction(
-            async (ctx, { flowDynamic, state }) => {
+            async (ctx, { flowDynamic, state, gotoFlow }) => {
                 const nombre = ctx.pushName
-                try {await flowDynamic(`¡Hola ${nombre}!`)
+                try {await flowDynamic(`¡Hola ${nombre}! Soy Ceresito, el Chatbot del Gobierno de la Ciudad de Ceres`)
+                .gotoFlow(flowMenu)
                 console.log(nombre)}
                 catch(error) {
                     console.log(error)
