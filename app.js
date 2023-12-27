@@ -356,12 +356,9 @@
     const flowCeresito = addKeyword(['ceresito', 'como usar ceresito'])
     .addAnswer('Si es la primera vez que chateás conmigo, te cuento algo de mí así me conocés mejor.')
     .addAnswer(['¿Sabías que soy un chatbot? Eso significa que:\n',
-
     '🤖 Podés hablarme cuando quieras porque estoy siempre en línea.\n',
     '🤖 Mis respuestas son automáticas, y todo el tiempo aprendo cosas nuevas.\n'], {delay: 1000})
-
     .addAnswer(['Para hablar conmigo lo mejor es usar frases simples, con pocas palabras.\n',
-
     'Mientras más corto sea el mensaje, mejor lo voy a entender. Por ejemplo:\n❌ No me escribas ‘Hola, es para preguntar si puedo sacar un turno el día martes’.\n\n✅ Mejor decime *Turnos* o escribí el número que le corresponda a la opción del menú que te interese.',
     ],{delay: 2000})
 
@@ -369,30 +366,26 @@
                 'Recordá que si no te entiendo o estás perdido, en todo momento podes escribir la palabra *Menú* para volver al menú principal.\n',
                 '1. 👉 Si. ¡Comencemos!',
                 '2. 👉 Todavía tengo dudas, ¿Podrías darme más información?'
-    ],
-    )
-    .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
+    ])
+    .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow,  }) => {
         const opcion = ctx.body.toLowerCase().trim();
-        if (!["1", "2", "menu", "menú"].includes(opcion)) {
+        if (!["1", "2", "3", "4", "menu", "menú"].includes(opcion)) {
             errores++;
 
-                if (errores > 2 )
-                {
-                    return gotoFlow(flowAyuda);
-
-                }
+            if (errores > 2 )
+            {
+                return gotoFlow(flowAyuda);
+            }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
-
             await gotoFlow(flowCeresito);
             return;
         }
         switch (opcion) {
-        case '1': return gotoFlow(flowMenu);
+        case '1': return gotoFlow(flowMenu);              
         case '2': return gotoFlow(flowCeresito);
         case 'menu': return gotoFlow(flowMenu)
         case 'menú': return gotoFlow(flowMenu)
-        default: return flowDynamic('No te entiendo 😢 Necesitas ayuda? Escribí la palabra *Menú* para volver a empezar')
-        }
+    }
     });
 
 
