@@ -205,11 +205,12 @@
                 }
             )
 
+            
             const flowPrincipalNombre = addKeyword(["nombre"])
-            .addAnswer('¡Hola ', null,
+            .addAction(
             async (ctx, { flowDynamic, state }) => {
                 const nombre = ctx.pushName
-                try {await flowDynamic(`${nombre}`)
+                try {await flowDynamic(`¡Hola ${nombre}!`)
                 console.log(nombre)}
                 catch(error) {
                     console.log(error)
