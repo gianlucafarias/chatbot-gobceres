@@ -206,8 +206,11 @@
             )
         
             const flowPrincipalNombre = addKeyword(["nombre"])
-                .flowDynamic(`🙌 ¡Hola ${ctx.pushName}! Soy Ceresito, el chatbot del Gobierno de la Ciudad de Ceres 🍒`)
-                
+            .addAction (async (ctx, {state, gotoflow}) => {
+                await state.update({name: ctx.pushName})
+                const myState = getMyState()
+                flowDynamic(`Este es tu nombre ${myState.name} `)
+            })
 
     const flowConsultar = addKeyword(['Consultar mis datos','🔍 Consultar mis datos 🔍'])
     .addAnswer(['Dame unos segundo, estoy buscando tus datos dentro del sistema... 🔍'],{delay:1000}, async (ctx, {flowDynamic}) =>{
