@@ -9,7 +9,7 @@
     const RESPONSES_SHEET_ID = '1eqgDBQtHqHmZcBF7IzK7-GgOQBSMBlmI9ZR667v4UF8'; //Aquí pondras el ID de tu hoja de Sheets
     const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
     const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
-    const { constularContactos } = require('./constularContactos');
+    const { consultarContactos } = require('./consultarContactos');
     const {
         createBot,
         createProvider,
@@ -146,7 +146,7 @@
                     }
                     };
                     sock.sendMessage(ctx.key.remoteJid, msgPoll)
-                    constularContactos(nombre, telefono)
+                    consultarContactos(nombre, telefono)
                         .then(result => {
                             console.log('Información consultada o registrada:', result);
                         })
