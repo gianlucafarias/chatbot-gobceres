@@ -207,9 +207,11 @@
 
             const flowPrincipalNombre = addKeyword(["nombre"])
             .addAction (async (ctx, {state, gotoflow}) => {
-              try {await state.update({name: ctx.pushName})
-              const myState = state.getMyState()
-              .flowDynamic(`Este es tu nombre ${myState.name} `)}
+                const myState = state.getMyState()
+                try {
+                    await state.update({name: ctx.pushName})
+                    .flowDynamic(`Este es tu nombre ${myState.name} `)
+                    console.log(myState.name)}
                 catch(error) {
                     console.log(error)
                 }
