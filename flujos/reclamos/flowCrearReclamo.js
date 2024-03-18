@@ -1,4 +1,3 @@
-
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const fs = require('fs')
 require('dotenv').config();
@@ -16,41 +15,44 @@ const {
     
 } = require('@bot-whatsapp/bot')
 
-const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
-} = require("./idleCasero"); 
+const {
+    startInactividad,
+    resetInactividad,
+    stopInactividad,
+    flowInactividad,
+  } = require('../idleCasero'); 
+
 
 let STATUS = {}
 
-const flowCrearReclamo = addKeyword('console')
+const flowCrearReclamo = addKeyword('Quiero hacer un reclamo')
 .addAction(async (ctx, { gotoFlow }) => {
     startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
-  })    
+  }) 
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
 '1. 👉 Higiene urbana 🗑',
 '2. 👉 Árboles 🌳',
 '3. 👉 Arreglos 🚧',
-'4. 👉 Consultar solicitud',
+'4. 👉 Consultar mi reclamo',
 
 '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
-],
-{capture:true},
-async (ctx,{flowDynamic, gotoFlow}) =>{
-telefono = ctx.from
+'\nPara volver atrás escribí la palabra *Menú*'
+])
+
+.addAction( { capture: true }, async (ctx, { flowDynamic, gotoFlow })=>{
+    console.log(option)
 const option = ctx.body.toLowerCase().trim();
-
-if (!["1", "2", "3", "4"].includes(option)) {
-    resetInactividad(ctx, gotoFlow, 90000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
-    await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
-
-    await fallBack();
+telefono = ctx.from;
+if (!["1", "2", "3", "4", "menu", "menú"].includes(opcion)) {
     errores++;
-
-if (errores > 2 )
-{
-    stopInactividad(ctx)
-    return gotoFlow(flowAyuda);
-
-}
+    resetInactividad(ctx, gotoFlow, 90000)
+    if (errores > 2 )
+    {
+        stopInactividad(ctx)
+        return gotoFlow(require('./flowAyuda'));
+    }
+    await flowDynamic('⚠️ Opción no encontrada, por favor seleccione una opción válida.');
+    await gotoFlow(flowCrearReclamo);
     return;
 }
 switch (option)
@@ -64,12 +66,15 @@ switch (option)
     case '3': reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Arreglos'}                //➡️ Variable del STATUS
     telefono = STATUS[telefono] = {...STATUS[telefono], telefono : ctx.from} 
     break;
-    case '4': return gotoFlow(require('./reclamos/flowConsultar'))
+    case '4': {
+         stopInactividad(ctx)
+        return gotoFlow(require('./flowConsultar'))
+    }
 }                     
 console.log(STATUS[telefono])
                                                            // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
 
-flowDynamic()
+// flowDynamic()
 })
 .addAnswer(
 '¿Podes decirme donde está ubicado?',
@@ -84,7 +89,7 @@ flowDynamic()
 .addAnswer(
 '¿Podes especificarme en que barrio se encuentra?',
 {capture:true},
-async (ctx,{flowDynamic, gotoFlow, addAction, provider}) =>{
+async (ctx,{flowDynamic}) =>{
 
 
 telefono = ctx.from
@@ -94,12 +99,9 @@ flowDynamic()
 /////////////////////       ESTA FUNCION AÑADE UNA FILA A SHEETS    /////////////////////////
    ingresarDatos();  
    async function ingresarDatos(){
-    const now = new Date(); // Obtener la fecha y hora actual
-    const fechaHora = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-    STATUS[telefono] = {...STATUS[telefono], fecha : fechaHora}
+    console.log(STATUS[telefono].sexo)
     let rows = [{
    // Ejemplo: // CABECERA DE SHEET : VARIABLE        //                             ➡️   Paso 3 - Aquí añades las variables creadas
-    Fecha: STATUS[telefono].fecha, // Fecha y hora en una sola columna
     Nombre: STATUS[telefono].nombre,
     Reclamo: STATUS[telefono].reclamo,    
     Ubicacion: STATUS[telefono].ubicacion,
@@ -119,23 +121,10 @@ flowDynamic()
             const row = rows[index];
             await sheet.addRow(row);}
 }
-const sock = await provider.getInstance();
-const msgPoll = {
-sticker: {
-url:
-"./media/exito.webp"
-}
-};
-sock.sendMessage(ctx.key.remoteJid, msgPoll)
 
 await flowDynamic (['Perfecto, espero que te haya parecido sencillo el formulario 😁', 
-                    'Podes consultar el estado de tu reclamo en el menú de Reclamos.'], {delay:4000})
-                    return gotoFlow((require("./flowLlamarMenu")))             
-}
-
-);
-
-
-
+                    'Podes consultar el estado de tu reclamo escribiendo *Consultar mis datos*'])
+return gotoFlow((require("./flowLlamarMenu")))
+});
 
 module.exports = flowCrearReclamo;

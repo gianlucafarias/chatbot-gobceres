@@ -5,6 +5,16 @@ const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
 const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
 const moment = require('moment');  // Importar la biblioteca moment
 
+const {
+    createBot,
+    createProvider,
+    createFlow,
+    addKeyword,
+    addAnswer,
+    EVENTS,
+    pushName
+    
+} = require('@bot-whatsapp/bot')
 
 
 async function cargarHoja() {
@@ -36,11 +46,14 @@ async function consultarContactos(nombre, telefono) {
             Nombre: nombre,
             Telefono: telefono,
             Registro: obtenerFechaHoraActual()  // Nueva columna para la fecha y hora de registro
+
         });
         consultados = { Nombre: nombre, Telefono: telefono };
+    return false;
+
     } else {
         // Si hay coincidencia, no hacer nada
-        consultados = { Nombre: coincidencia.Nombre, Telefono: coincidencia.Telefono };
+        consultados = { Nombre: coincidencia.Nombre, Telefono: coincidencia.Telefono }; 
     }
 
     return consultados;

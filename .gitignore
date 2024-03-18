@@ -1,7 +1,17 @@
-node_modules
-bot_sessions/
-core.class.log
+# Ignorar archivos específicos
+.env
 queue.class.log
+core.class.log
 bot.qr.png
-borrador.js
+baileys.log
 credenciales.json
+credenciales-calendar.json
+google-sheets-config.json
+# Ignorar la carpeta node_modules
+node_modules/
+
+# Ignorar la carpeta bot_sessions
+bot_sessions/
+
+# Ignorar la carpeta backend-server
+backend-server/
