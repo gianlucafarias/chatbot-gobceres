@@ -14,7 +14,7 @@ const flowAgente = addKeyword('PELIGRO', {sensitive: true})
     const nanoid = await import('nanoid')
     const ID_GROUP = nanoid.nanoid(5)
     const refProvider = await provider.getInstance()
-    await refProvider.groupCreate(`Ojos en Alerta Reclamo:(${ID_GROUP})`,[
+    await refProvider.groupCreate(`Ojos en Alerta Reclamo: (${ID_GROUP})`,[
         `${ctx.from}@s.whatsapp.net`
     ])
 })
