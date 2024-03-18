@@ -16,13 +16,13 @@ const {
     flowInactividad,
   } = require('./idleCasero'); 
 
-  const adapterDB = require('../database/database')
 
   let errores = 0;
 
 const flowLicencias = addKeyword(['Licencias', 'licencia', 'como sacar mi licencia'])
 
     .addAction(async (ctx, { gotoFlow }) => {
+        const adapterDB = require('../database/database')
         adapterDB.contadorFlujos(2) //licencias
         .then(() => {
             console.log('Contador del flujo incrementado correctamente');

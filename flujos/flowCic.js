@@ -20,6 +20,7 @@ const {
 
 const flowCIC = addKeyword(['CIC', 'centro integrador comunitario', 'salud', 'telefono cic'])
         .addAction(async (ctx, { gotoFlow }) => {
+            const adapterDB = require('../database/database')
             adapterDB.contadorFlujos(3) // Cic
             .then(() => {
                 console.log('Contador del flujo incrementado correctamente');
