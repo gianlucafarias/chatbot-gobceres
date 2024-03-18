@@ -24,7 +24,7 @@ const flowLlamarMenu = addKeyword(['$menu'])
 
   .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow, fallBack }) => {
     const opcion = ctx.body.toLowerCase().trim();
-    if (!["tramites", "trámites", "cic", "género", "genero", "licencia", "licencias", "menu", "menú"].includes(opcion)) {
+    if (!["tramites", "trámites", "cic", "género", "genero", "licencia", "licencias", "menu", "menú", "hola", "gracias"].includes(opcion)) {
         errores++;
         resetInactividad(ctx, gotoFlow, 90000)
             if (errores > 2 )

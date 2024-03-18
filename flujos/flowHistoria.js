@@ -18,7 +18,17 @@ const {
   
 
  const flowHistoria = addKeyword('historia')
-        .addAnswer('Acá te dejamos un pequeño resumen sobre la historia de nuestra querida ciudad 👇')
+        .addAnswer('Acá te dejamos un pequeño resumen sobre la historia de nuestra querida ciudad 👇', {delay:2000}, async (ctx, { provider } ) => {
+          const sock = await provider.getInstance();
+          const msgPoll = {
+          sticker: {
+          url:
+          "./media/historia.webp"
+          }
+          };
+          sock.sendMessage(ctx.key.remoteJid, msgPoll)
+        })
+        
         .addAnswer(['El 1 de julio de 1892 Ceres se constituía como colonia gracias al decreto del entonces gobernador de Santa Fe, Juan M. Cafferata, en un momento de plena expansión del país.',
                     'Sin embargo, estas tierras se vieron habitadas varios años antes. En 1888, durante la presidencia del Dr. Miguel Juárez Celman y en un contexto de gran expansión de las redes ferroviarias, se estableció el kilómetro 125 en el actual territorio ceresino. ¿Qué significaba esto? Así se denominó a la estación ferroviaria de nuestra ciudad por ser la distancia que nos separaba de Sunchales, punta de riel hasta entonces. ',
                     'Es así que un 8 de abril de 1888 llegó el primer tren con materiales y personas que levantarían las instalaciones del nuevo punto. Sin embargo, ya había dos pobladores en las tierras de lo que hoy es Ceres: Don Gregorio Luna y Don Pedro Córdoba. Para el Cincuentenario de la ciudad, Luna había fallecido hacía muy poco y Córdoba se encontraba todavía vivo. En el libro de ese aniversario, se sostiene que estas dos personas “ayudaron en la tarea de amojonamiento del pueblo y de la colonia”.',
