@@ -4,6 +4,8 @@ const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 } = require("./idleCasero"); 
 
 
+let errores = 0;
+
 const flowResiduos = addKeyword(['separacion', 'residuos', 'separación residuos', 'separación'])
 .addAnswer('Separar los residuos es fundamental para el cuidado de nuestro planeta. Selecciona qué info necesitas saber 🌎', {delay: 1000}, async (ctx, {gotoFlow}) => {
     startInactividad(ctx, gotoFlow, 120000)

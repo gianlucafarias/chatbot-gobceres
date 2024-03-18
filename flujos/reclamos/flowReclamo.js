@@ -9,6 +9,8 @@ const {
     
 } = require('@bot-whatsapp/bot')
 
+let errores = 0;
+
 const flowReclamo = addKeyword('console')
     .addAnswer('Queremos que nuestra Ciudad esté cada vez más linda. 🌈\n\nPor eso, si ves algo que necesite arreglo o se pueda mejorar, podés hacer tu solicitud desde acá.')
     .addAnswer([

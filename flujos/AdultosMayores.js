@@ -1,5 +1,7 @@
 const { addKeyword, addAction, addAnswer, gotoFlow } = require("@bot-whatsapp/bot");
 
+let errores = 0;
+
 const flowAdultosmayores = addKeyword('actividades adultos mayores')
     .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩')
     .addAnswer(['¿Sobre qué queres saber? 👇',

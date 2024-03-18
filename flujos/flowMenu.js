@@ -14,6 +14,8 @@ const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 
 const flowHistoriaGpt = require('./flowHistoriaGpt')
 
+let errores = 0;
+
 const flowMenu = addKeyword(['menu', 'menú'])
 .addAction(async (ctx, { gotoFlow }) => {
     startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO

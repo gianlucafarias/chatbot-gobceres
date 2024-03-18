@@ -16,6 +16,8 @@ const {
     flowInactividad,
   } = require('./idleCasero'); 
 
+  let errores = 0;
+
 const flowAdultosmayores = addKeyword('actividades adultos mayores')
         .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩',{delay: 1000} , async (ctx, {gotoFlow}) => {
             startInactividad(ctx, gotoFlow, 120000)

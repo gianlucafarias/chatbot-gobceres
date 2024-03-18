@@ -19,6 +19,8 @@ const {
 const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 } = require("./idleCasero"); 
 
+let errores = 0;
+
 let STATUS = {}
 
 const flowCrearReclamo = addKeyword('console')

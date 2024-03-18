@@ -3,6 +3,9 @@ const { addKeyword, addAction, addAnswer, gotoFlow } = require("@bot-whatsapp/bo
 const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 } = require("./idleCasero"); 
 
+
+let errores = 0;
+
 const flowTurismo = addKeyword(['Turismo', 'hoteles', 'bares'])
 .addAction(async (ctx, { gotoFlow }) => {
     startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO

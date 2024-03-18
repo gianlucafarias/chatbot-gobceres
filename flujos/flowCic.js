@@ -16,9 +16,12 @@ const {
     flowInactividad,
   } = require('./idleCasero'); 
 
+  let errores = 0;
+
 const flowCIC = addKeyword(['CIC', 'centro integrador comunitario', 'salud', 'telefono cic'])
         .addAnswer('El Centro de Integración Comunitaria se encuentra en Avenida Perón y Pasaje Melián. Te envío la ubicación:', )
         .addAction(async (ctx, { provider }) => {
+            startInactividad(ctx, gotoFlow, 120000)
             const id = ctx.key.remoteJid;
             await provider.sendLocation(id, -29.8807488, -61.9510042)
         })
@@ -30,9 +33,7 @@ const flowCIC = addKeyword(['CIC', 'centro integrador comunitario', 'salud', 'te
 
         '\n\n Elegí alguna de esas opciones y te ayudo.',
 
-        ],{delay: 3000} , async (ctx, {gotoFlow}) => {
-            startInactividad(ctx, gotoFlow, 120000)
-          })
+        ],{delay: 3000})
         
         .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
             const opcion = ctx.body.toLowerCase().trim();

@@ -22,6 +22,7 @@ const {
     flowInactividad,
   } = require('../idleCasero'); 
 
+let errores = 0;
 
 let STATUS = {}
 
