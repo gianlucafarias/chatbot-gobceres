@@ -28,10 +28,10 @@ const flowAgente = require('./flowAgente')
 const flowReclamo = require('./reclamos/flowReclamo')
 const flowConsultar = require('./reclamos/flowConsultar')
 const flowLlamarMenu = require('./flowLlamarMenu') //⬅️⬅️⬅️ Tiene Fallback
-const flowHistoriaGpt = require('./flowHistoriaGpt')
+//const flowHistoriaGpt = require('./flowHistoriaGpt')
 const flowPrimeraVez = require('./flowPrimeraVez')
 
 
-const adapterFlow = createFlow([flowPrimeraVez, flowHistoriaGpt, flowLlamarMenu, flowInactividad, flowNumeroGuardialocal, flowHistoria, flowCeresito, flowReclamo, flowCrearReclamo, flowAgente, flowConsultar, flowMenu, flowPrincipal, flowTramites, flowCIC, flowLicencias, flowGenero, flowTurismo, flowResiduos, flowSeccionesPatio, flowDengue, flowEducacion, flowAdultosmayores, flowActividadesAdultos, flowConsejoAdultos, flowMujerSegura, flowSeccionesPatio, flowAyuda])
+const adapterFlow = createFlow([flowPrimeraVez, flowLlamarMenu, flowInactividad, flowNumeroGuardialocal, flowHistoria, flowCeresito, flowReclamo, flowCrearReclamo, flowAgente, flowConsultar, flowMenu, flowPrincipal, flowTramites, flowCIC, flowLicencias, flowGenero, flowTurismo, flowResiduos, flowSeccionesPatio, flowDengue, flowEducacion, flowAdultosmayores, flowActividadesAdultos, flowConsejoAdultos, flowMujerSegura, flowSeccionesPatio, flowAyuda])
 
 module.exports =  adapterFlow ;

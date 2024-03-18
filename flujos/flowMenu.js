@@ -73,7 +73,7 @@ const flowMenu = addKeyword(['menu', 'menú'])
             }
             if (option === "5") {
                 stopInactividad(ctx); // ⬅️⬅️⬅️  HEMOS LLEGADO AL FINAL DEL FLUJO, ASI QUE PARO LA CUENTA ATRÁS
-                return gotoFlow(flowHistoriaGpt);
+                return gotoFlow(require('./flowHistoria'));
             }
             if (option === "6") {
                 stopInactividad(ctx); // ⬅️⬅️⬅️  HEMOS LLEGADO AL FINAL DEL FLUJO, ASI QUE PARO LA CUENTA ATRÁS
