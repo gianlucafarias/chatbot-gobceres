@@ -25,8 +25,17 @@ let STATUS = {}
 
 const flowCrearReclamo = addKeyword('console')
 .addAction(async (ctx, { gotoFlow }) => {
-    startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
-  })    
+    const adapterDB = require('../database/database')
+
+    adapterDB.contadorFlujos(11) // reclamo
+        .then(() => {
+            console.log('Contador del flujo incrementado correctamente');
+        })
+        .catch((error) => {
+            console.error('Error al incrementar el contador del flujo:', error);
+        });
+    startInactividad(ctx, gotoFlow, 120000)
+  })  
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
 '1. 👉 Higiene urbana 🗑',
 '2. 👉 Árboles 🌳',

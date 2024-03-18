@@ -19,15 +19,24 @@ const {
   let errores = 0;
 
 const flowEducacion = addKeyword('educacion')
+.addAction(async (ctx, { gotoFlow }) => {
+    const adapterDB = require('../database/database')
+    adapterDB.contadorFlujos(7) // educacion
+    .then(() => {
+        console.log('Contador del flujo incrementado correctamente');
+    })
+    .catch((error) => {
+        console.error('Error al incrementar el contador del flujo:', error);
+    });
+    startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+})   
 .addAnswer('¿Querés estudiar? ¡Te felicitamos! En Ceres podes capacitarte en dos carreras universitarias y también en robótica 🤓')
 .addAnswer(['¿Sobre qué queres saber? 👇',
 '1. 👉 Tecnicaturas de la UTN en Ceres',
 '2. 👉 Robótica y Club de Ciencias',
 '3. 👉 Cambiar de tema 🔄',
 '\n\n Escribí el número del menú sobre el tema que te interese para continuar.',
-], {delay: 4000}, async (ctx, {gotoFlow}) => {
-    startInactividad(ctx, gotoFlow, 120000)
-  })
+], {delay: 4000})
 
 .addAction({ capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
     const opcion = ctx.body.toLowerCase().trim();
@@ -45,6 +54,7 @@ const flowEducacion = addKeyword('educacion')
     }
     switch (opcion) {
     case '1': {
+        stopInactividad(ctx)
         await flowDynamic('¡Genial! En Ceres podes cursar dos carreras con mucha salida laboral \n\n Tecnicatura en Administración Rural 📚 \n Tecnicatura en Programación 📚 \n\n Toda la información sobre estas carreras pertenecientes a la UTN, la encontras en este instagram 👇 https://instagram.com/utnceresextension');
         return gotoFlow((require("./flowLlamarMenu")))
     }

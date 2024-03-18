@@ -10,9 +10,17 @@ const {
   let errores = 0;
 
 const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites', 'quiero hacer un tramite'])
-    .addAction(async (ctx, { gotoFlow }) => {
-        startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
-    })    
+        .addAction(async (ctx, { gotoFlow }) => {
+            const adapterDB = require('../database/database')
+            adapterDB.contadorFlujos(1) // tramites
+            .then(() => {
+                console.log('Contador del flujo incrementado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al incrementar el contador del flujo:', error);
+            });
+            startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+        }) 
     .addAnswer('Hacer trámites puede ser muy aburrido y estresante, por eso quiero facilitarte las cosas 💪' )
     .addAnswer([
         'Ahora puedes hacer lo siguiente desde acá:',

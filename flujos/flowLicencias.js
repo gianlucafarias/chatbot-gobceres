@@ -23,15 +23,14 @@ const {
 const flowLicencias = addKeyword(['Licencias', 'licencia', 'como sacar mi licencia'])
 
     .addAction(async (ctx, { gotoFlow }) => {
-        adapterDB.contadorFlujos(2)
+        adapterDB.contadorFlujos(2) //licencias
         .then(() => {
             console.log('Contador del flujo incrementado correctamente');
-            // Continúa con el resto de la lógica del flujo aquí
         })
         .catch((error) => {
             console.error('Error al incrementar el contador del flujo:', error);
-            // Maneja el error de alguna manera apropiada
-        });        startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+        });
+        startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
     })   
     .addAnswer('Si vas a conducir un vehículo, sí o sí necesitas contar con una licencia de conducir 🚗🚙🛵🚚🚜', 
     {delay:2000}, async (ctx, { provider } ) => {

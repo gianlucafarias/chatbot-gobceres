@@ -18,6 +18,16 @@ const {
   
 
  const flowHistoria = addKeyword('historia')
+        .addAction(async (ctx, { gotoFlow }) => {
+          const adapterDB = require('../database/database')
+          adapterDB.contadorFlujos(5) // historia
+          .then(() => {
+              console.log('Contador del flujo incrementado correctamente');
+          })
+          .catch((error) => {
+              console.error('Error al incrementar el contador del flujo:', error);
+          });
+        }) 
         .addAnswer('Acá te dejamos un pequeño resumen sobre la historia de nuestra querida ciudad 👇', {delay:2000}, async (ctx, { provider } ) => {
           const sock = await provider.getInstance();
           const msgPoll = {
@@ -36,9 +46,7 @@ const {
                     'Con el correr de los años siguió incrementándose la cantidad de habitantes del kilómetro 125, principalmente con colonos de distintos puntos del país e inmigrantes, en su mayoría italianos, atraídos por las facilidades que se otorgaban para comprar tierras y con la comprobación de que eran sumamente aptas para el ganado y la agricultura. Por este motivo se comenzó a hacer referencia a la Diosa Ceres, diosa romana de la agricultura, las cosechas y la fecundidad.',
                     'Luego de 73 años de existencia y con 9.588 habitantes, sin haber llegado a las 10.000 requeridos, el gobernador Carlos S. Begnis declaró oficialmente ciudad a Ceres en el año 1961. Se trataron de más de 70 años caracterizados por una gran expansión cultural, social y económica: florecieron instituciones y la actividad económica creció a grandes ritmos, principalmente por el sector agropecuario. Ese mismo año, nuestra ciudad contabilizaba 120 tambos, 221 establecimientos agrícolas y 425 negocios.',
                     'Este año, la ciudad cumplió 131 años y según los últimos datos, estamos cerca de los 20.000 habitantes. Ceres se constituye como el centro comercial y de servicios más importante de la zona, teniendo un radio de influencia muy importante en toda el área.',
-    ], {delay: 4000}, async (ctx, {gotoFlow}) => {
-      startInactividad(ctx, gotoFlow, 120000)
-    })
+    ], {delay: 4000})
     .addAction({ delay: 9000 }, async (ctx, { flowDynamic, gotoFlow }) => {
       return gotoFlow((require("./flowLlamarMenu")))
   })

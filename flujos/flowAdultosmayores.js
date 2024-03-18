@@ -19,9 +19,18 @@ const {
   let errores = 0;
 
 const flowAdultosmayores = addKeyword('actividades adultos mayores')
-        .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩',{delay: 1000} , async (ctx, {gotoFlow}) => {
-            startInactividad(ctx, gotoFlow, 120000)
-          })
+        .addAction(async (ctx, { gotoFlow }) => {
+            const adapterDB = require('../database/database')
+            adapterDB.contadorFlujos(8) // adultos mayores
+            .then(() => {
+                console.log('Contador del flujo incrementado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al incrementar el contador del flujo:', error);
+            });
+            startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+        }) 
+        .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩',{delay: 1000})
         .addAnswer(['¿Sobre qué queres saber? 👇',
         '1. 👉 Consejo de Adultos Mayores 📣',
         '2. 👉 Actividades recreativas para adultos mayores 🧑‍🦳',

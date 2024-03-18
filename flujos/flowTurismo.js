@@ -5,9 +5,17 @@ const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 
 
 let errores = 0;
+const adapterDB = require('../database/database')
 
 const flowTurismo = addKeyword(['Turismo', 'hoteles', 'bares'])
 .addAction(async (ctx, { gotoFlow }) => {
+    adapterDB.contadorFlujos(4) //turismo
+        .then(() => {
+            console.log('Contador del flujo incrementado correctamente');
+        })
+        .catch((error) => {
+            console.error('Error al incrementar el contador del flujo:', error);
+        });
     startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
   })  
 .addAnswer('¡Nuestra ciudad tiene un montón de cosas para disfrutar! 🤩',

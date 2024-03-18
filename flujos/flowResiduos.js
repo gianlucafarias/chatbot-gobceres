@@ -8,6 +8,15 @@ let errores = 0;
 
 const flowResiduos = addKeyword(['separacion', 'residuos', 'separación residuos', 'separación'])
 .addAnswer('Separar los residuos es fundamental para el cuidado de nuestro planeta. Selecciona qué info necesitas saber 🌎', {delay: 1000}, async (ctx, {gotoFlow}) => {
+    const adapterDB = require('../database/database')
+
+    adapterDB.contadorFlujos(6) //residuos
+        .then(() => {
+            console.log('Contador del flujo incrementado correctamente');
+        })
+        .catch((error) => {
+            console.error('Error al incrementar el contador del flujo:', error);
+        });
     startInactividad(ctx, gotoFlow, 120000)
   })
 .addAnswer(['¿Sobre qué queres saber? 👇',

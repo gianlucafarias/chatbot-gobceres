@@ -19,9 +19,18 @@ const {
   let errores = 0;
 
 const flowCIC = addKeyword(['CIC', 'centro integrador comunitario', 'salud', 'telefono cic'])
-        .addAnswer('El Centro de Integración Comunitaria se encuentra en Avenida Perón y Pasaje Melián. Te envío la ubicación:', )
+        .addAction(async (ctx, { gotoFlow }) => {
+            adapterDB.contadorFlujos(3) // Cic
+            .then(() => {
+                console.log('Contador del flujo incrementado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al incrementar el contador del flujo:', error);
+            });
+            startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+        })   
+        .addAnswer('El Centro de Integración Comunitaria se encuentra en Avenida Perón y Pasaje Melián. Te envío la ubicación:')
         .addAction(async (ctx, { provider }) => {
-            startInactividad(ctx, gotoFlow, 120000)
             const id = ctx.key.remoteJid;
             await provider.sendLocation(id, -29.8807488, -61.9510042)
         })

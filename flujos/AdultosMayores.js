@@ -2,8 +2,26 @@ const { addKeyword, addAction, addAnswer, gotoFlow } = require("@bot-whatsapp/bo
 
 let errores = 0;
 
+const {
+    startInactividad,
+    resetInactividad,
+    stopInactividad,
+    flowInactividad,
+  } = require('./idleCasero'); 
+
 const flowAdultosmayores = addKeyword('actividades adultos mayores')
-    .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩')
+    .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩', {delay: 1000}, async (ctx, {gotoFlow}) => {
+        const adapterDB = require('../database/database')
+    
+        adapterDB.contadorFlujos(6) //residuos
+            .then(() => {
+                console.log('Contador del flujo incrementado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al incrementar el contador del flujo:', error);
+            });
+        startInactividad(ctx, gotoFlow, 120000)
+      })
     .addAnswer(['¿Sobre qué queres saber? 👇',
     '1. 👉 Consejo de Adultos Mayores 📣',
     '2. 👉 Actividades recreativas para adultos mayores 🧑‍🦳',
@@ -15,10 +33,10 @@ const flowAdultosmayores = addKeyword('actividades adultos mayores')
 
         if (![1, 2].includes(opcion)) {
             errores++;
-
+            resetInactividad(ctx, gotoFlow, 90000)
             if (errores > 2 )
             {
-                return gotoFlow(flowAyuda);
+                return gotoFlow(require('./flowAyuda'));
             }
             await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
@@ -28,8 +46,14 @@ const flowAdultosmayores = addKeyword('actividades adultos mayores')
 
         errores = 0;
         switch (opcion) {
-        case 1: return gotoFlow(flowConsejoAdultos);              
-        case 2: return gotoFlow(flowActividadesAdultos);
+        case 1: {
+            stopInactividad(ctx)
+            return gotoFlow(require('./flowConsejoAdultos'))
+        }
+        case 2: {
+            stopInactividad(ctx)
+            return gotoFlow(require('./flowActividadesAdultos'));
+        }
         }
     }, 
     );

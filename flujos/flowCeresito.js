@@ -9,8 +9,17 @@ const {
     
 } = require('@bot-whatsapp/bot')
 
-
 const flowCeresito = addKeyword(['ceresito', 'como usar ceresito'])
+.addAction(async (ctx, { gotoFlow }) => {
+    const adapterDB = require('../database/database')
+    adapterDB.contadorFlujos(10) // ceresito
+    .then(() => {
+        console.log('Contador del flujo incrementado correctamente');
+    })
+    .catch((error) => {
+        console.error('Error al incrementar el contador del flujo:', error);
+    });
+}) 
 .addAnswer('Si es la primera vez que chateás conmigo, te cuento algo de mí así me conocés mejor.')
 .addAnswer(['¿Sabías que soy un chatbot? Eso significa que:\n',
 '🤖 Podés hablarme cuando quieras porque estoy siempre en línea.\n',
