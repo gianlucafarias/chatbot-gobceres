@@ -14,14 +14,14 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
         startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
     })    
     .addAnswer('Hacer trámites puede ser muy aburrido y estresante, por eso quiero facilitarte las cosas 💪' )
-    .addAction([
+    .addAnswer([
         'Ahora puedes hacer lo siguiente desde acá:',
         'Contame, ¿sobre qué necesitas saber?',
         'Escribí el número del menú sobre el tema que te interese para continuar.\n\n',
         '1. 👉 Camino rural',
         '2. 👉 Moratorias',
         '3. 👉 Cambiar de tema 🔄',
-    ], { delay:4000, capture: true }, async (ctx, { flowDynamic, gotoFlow }) => {
+    ], { delay:1000, capture: true }, async (ctx, { flowDynamic, gotoFlow, endFlow }) => {
         const opcion = ctx.body.toLowerCase().trim();
         if (!["1", "2", "3", "menu", "menú"].includes(opcion)) {
             errores++;
@@ -40,11 +40,11 @@ const flowTramites = addKeyword(['Trámites', 'tramite', 'trámite', 'trámites'
             
         case '1': {
             stopInactividad(ctx)
-            return flowDynamic('Si queres pagar este impuesto, hace clic acá 👇https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
+            return endFlow('Si queres pagar este impuesto, hace clic acá 👇https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
         }
         case '2': {
             stopInactividad(ctx)
-            return flowDynamic('Si estás adherido a una moratoria y queres pagarla, hace clic acá 👇 https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
+            return endFlow('Si estás adherido a una moratoria y queres pagarla, hace clic acá 👇 https://bit.ly/pagarimpuestosceres \n\n Volvé a escribir *Tramites* para volver al menú anterior o *Menú* para volver al menú principal.');
         }
         case '3': {
             stopInactividad(ctx)

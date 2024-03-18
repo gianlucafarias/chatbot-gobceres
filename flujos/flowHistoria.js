@@ -29,23 +29,9 @@ const {
     ], {delay: 4000}, async (ctx, {gotoFlow}) => {
       startInactividad(ctx, gotoFlow, 120000)
     })
-         
-        .addAnswer('Escribí *Menú* para volver al menú principal.',
-      
-      
-        { delay: 3000, capture: true }, async (ctx, { gotoFlow, fallBack }) => {
-            const opcion = ctx.body.toLowerCase().trim();
-
-            if (opcion !== 'menu' || 'menú')
-            {
-              resetInactividad(ctx, gotoFlow, 90000)
-              return fallBack('No te entiendo 😭. Escribí la palabra *Menú* para continuar.')
-            }
-            else{
-              stopInactividad(ctx);
-              return gotoFlow(require('./flowMenu'));
-            }
-          })
-
+    .addAction({ delay: 9000 }, async (ctx, { flowDynamic, gotoFlow }) => {
+      return gotoFlow((require("./flowLlamarMenu")))
+  })
+  
 
 module.exports = flowHistoria;
