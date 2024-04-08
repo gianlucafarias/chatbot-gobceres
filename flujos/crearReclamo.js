@@ -15,6 +15,8 @@ const {
     pushName
     
 } = require('@bot-whatsapp/bot')
+const adapterDB = require('../database/database')
+
 
 const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
 } = require("./idleCasero"); 
@@ -25,7 +27,6 @@ let STATUS = {}
 
 const flowCrearReclamo = addKeyword('console')
 .addAction(async (ctx, { gotoFlow }) => {
-    const adapterDB = require('../database/database')
 
     adapterDB.contadorFlujos(11) // reclamo
         .then(() => {
@@ -34,7 +35,7 @@ const flowCrearReclamo = addKeyword('console')
         .catch((error) => {
             console.error('Error al incrementar el contador del flujo:', error);
         });
-    startInactividad(ctx, gotoFlow, 120000)
+    startInactividad(ctx, gotoFlow, 300000)
   })  
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
 '1. 👉 Higiene urbana 🗑',
@@ -50,7 +51,7 @@ telefono = ctx.from
 const option = ctx.body.toLowerCase().trim();
 
 if (!["1", "2", "3", "4"].includes(option)) {
-    resetInactividad(ctx, gotoFlow, 90000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
+    resetInactividad(ctx, gotoFlow, 300000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
     await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
     await fallBack();
@@ -85,8 +86,8 @@ flowDynamic()
 .addAnswer(
 '¿Podes decirme donde está ubicado?',
 {capture:true},
-async (ctx,{flowDynamic}) =>{
-   
+async (ctx,{flowDynamic, gotoFlow}) =>{
+resetInactividad(ctx, gotoFlow, 300000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
 telefono = ctx.from
 ubicacion = STATUS[telefono] = {...STATUS[telefono], ubicacion : ctx.body}
 nombre = STATUS[telefono] = {...STATUS[telefono], nombre : ctx.pushName}
@@ -103,7 +104,9 @@ barrio = STATUS[telefono] = {...STATUS[telefono], barrio : ctx.body}      //Vari
 flowDynamic()
            //Variable del STATUS
 /////////////////////       ESTA FUNCION AÑADE UNA FILA A SHEETS    /////////////////////////
-   ingresarDatos();  
+/*
+ingresarDatos();  
+   
    async function ingresarDatos(){
     const now = new Date(); // Obtener la fecha y hora actual
     const fechaHora = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
@@ -130,6 +133,23 @@ flowDynamic()
             const row = rows[index];
             await sheet.addRow(row);}
 }
+*/
+
+try {
+    await adapterDB.ingresarDatos({
+        fecha: new Date(), // Ejemplo de fecha actual
+        nombre: STATUS[telefono].nombre,
+        reclamo: STATUS[telefono].reclamo,
+        ubicacion: STATUS[telefono].ubicacion,
+        barrio: STATUS[telefono].barrio,
+        telefono: telefono, // Puedes obtener el teléfono del contexto
+        estado: 'PENDIENTE'
+    });
+    console.log('Datos de reclamo ingresados correctamente en la base de datos');
+} catch (error) {
+    console.error('Error al ingresar los datos del reclamo en la base de datos:', error);
+}
+
 const sock = await provider.getInstance();
 const msgPoll = {
 sticker: {
@@ -141,6 +161,7 @@ sock.sendMessage(ctx.key.remoteJid, msgPoll)
 
 await flowDynamic (['Perfecto, espero que te haya parecido sencillo el formulario 😁', 
                     'Podes consultar el estado de tu reclamo en el menú de Reclamos.'], {delay:4000})
+                    stopInactividad(ctx)
                     return gotoFlow((require("./flowLlamarMenu")))             
 }
 

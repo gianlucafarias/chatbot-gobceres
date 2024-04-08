@@ -8,10 +8,13 @@ const {
     flowInactividad,
   } = require('./idleCasero'); 
 
+  const contadorConversacion = require('../utils/contadorConversacion')
+
 const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
             .addAction(
                 async (ctx, { flowDynamic, state, provider, gotoFlow }) => {
                     startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+                    contadorConversacion.iniciarContadorConversacion(ctx);
                     const nombre = ctx.pushName
                     const telefono = ctx.from
                     try {await flowDynamic(`¡Hola ${nombre}! Soy Ceresito, el Chatbot del Gobierno de la Ciudad de Ceres`)

@@ -1,11 +1,15 @@
 // TODO - ESTE ES EL FLUJO QUE SE ACTIVARÁ SI EL TIEMPO SE CONSUME
 const { addKeyword, EVENTS, addAction } = require("@bot-whatsapp/bot");
+const contadorConversacion = require('../utils/contadorConversacion')
+
 const flowInactividad = addKeyword(EVENTS.ACTION).addAction(
   async (ctx, { endFlow }) => {
     await endFlow("¡Se agotó el tiempo de respuesta! Si querés seguir hablando conmigo, mandame *Hola* 👋");
+    contadorConversacion.detenerContadorConversacion(ctx);
     return stopInactividad(ctx);
   }
 );
+
 // TODO ----------------------------------------------------------
 // Objeto para almacenar temporizadores por usuario
 const timers = {};
