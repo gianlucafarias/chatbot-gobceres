@@ -1,10 +1,4 @@
-
-const { GoogleSpreadsheet } = require('google-spreadsheet')
-const fs = require('fs')
 require('dotenv').config();
-const RESPONSES_SHEET_ID = process.env.RESPONSES_SHEET_ID
-const doc = new GoogleSpreadsheet(RESPONSES_SHEET_ID);
-const CREDENTIALS = JSON.parse(fs.readFileSync('./credenciales.json'));
 const {
     createBot,
     createProvider,
@@ -65,6 +59,7 @@ if (errores > 2 )
 }
     return;
 }
+stopInactividad(ctx)
 switch (option)
 {
     case '1': reclamo = STATUS[telefono] = {...STATUS[telefono], reclamo : 'Higiene Urbana'}                //➡️ Variable del STATUS
@@ -80,7 +75,6 @@ switch (option)
 }                     
 console.log(STATUS[telefono])
                                                            // Ejemplo // NOMBRE VARIABLE = TATUS[telefono], NOMBRE VARIABLE : ctx.body
-
 flowDynamic()
 })
 .addAnswer(
@@ -102,39 +96,16 @@ async (ctx,{flowDynamic, gotoFlow, addAction, provider}) =>{
 telefono = ctx.from
 barrio = STATUS[telefono] = {...STATUS[telefono], barrio : ctx.body}      //Variable del STATUS
 flowDynamic()
-           //Variable del STATUS
-/////////////////////       ESTA FUNCION AÑADE UNA FILA A SHEETS    /////////////////////////
-/*
-ingresarDatos();  
-   
-   async function ingresarDatos(){
-    const now = new Date(); // Obtener la fecha y hora actual
-    const fechaHora = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-    STATUS[telefono] = {...STATUS[telefono], fecha : fechaHora}
-    let rows = [{
-   // Ejemplo: // CABECERA DE SHEET : VARIABLE        //                             ➡️   Paso 3 - Aquí añades las variables creadas
-    Fecha: STATUS[telefono].fecha, // Fecha y hora en una sola columna
-    Nombre: STATUS[telefono].nombre,
-    Reclamo: STATUS[telefono].reclamo,    
-    Ubicacion: STATUS[telefono].ubicacion,
-    Barrio: STATUS[telefono].barrio,
-    Telefono: STATUS[telefono].telefono,
-    Estado: 'PENDIENTE'
-   
-        }];
-   
-    await doc.useServiceAccountAuth({
-            client_email: CREDENTIALS.client_email,
-            private_key: CREDENTIALS.private_key
-        });
-        await doc.loadInfo();
-        let sheet = doc.sheetsByIndex[0];
-        for (let index = 0; index < rows.length; index++) {
-            const row = rows[index];
-            await sheet.addRow(row);}
-}
-*/
-
+})
+.addAnswer(
+    'Por ultimo, ¿Podes darme mas detalles sobre el reclamo?',
+    {capture:true},
+    async (ctx,{flowDynamic, gotoFlow, addAction, provider}) =>{
+    
+    
+    telefono = ctx.from
+    detalle = STATUS[telefono] = {...STATUS[telefono], detalle : ctx.body}      //Variable del STATUS
+    flowDynamic()
 try {
     await adapterDB.ingresarDatos({
         fecha: new Date(), // Ejemplo de fecha actual
@@ -143,7 +114,8 @@ try {
         ubicacion: STATUS[telefono].ubicacion,
         barrio: STATUS[telefono].barrio,
         telefono: telefono, // Puedes obtener el teléfono del contexto
-        estado: 'PENDIENTE'
+        estado: 'PENDIENTE',
+        detalle: STATUS[telefono].detalle,
     });
     console.log('Datos de reclamo ingresados correctamente en la base de datos');
 } catch (error) {

@@ -18,7 +18,7 @@ let errores = 0;
 const flowLlamarMenu = addKeyword(['$menu'])
 .addAnswer('Querés hacer otra consulta? Escribí la palabra *Menú* para volver al menú principal. También podes escribir *Trámites*, *CIC*, *Género* o *Licencias* para otras opciones.',
 {delay: 4000}, async (ctx, {gotoFlow}) => {
-    startInactividad(ctx, gotoFlow, 120000)
+    startInactividad(ctx, gotoFlow, 270000)
   })
 
 
@@ -26,7 +26,7 @@ const flowLlamarMenu = addKeyword(['$menu'])
     const opcion = ctx.body.toLowerCase().trim();
     if (!["tramites", "trámites", "cic", "género", "genero", "licencia", "licencias", "menu", "menú", "hola", "gracias"].includes(opcion)) {
         errores++;
-        resetInactividad(ctx, gotoFlow, 90000)
+        resetInactividad(ctx, gotoFlow, 500000)
             if (errores > 2 )
             {
                 stopInactividad(ctx)
