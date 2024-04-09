@@ -29,7 +29,7 @@ const flowCrearReclamo = addKeyword('console')
         .catch((error) => {
             console.error('Error al incrementar el contador del flujo:', error);
         });
-    startInactividad(ctx, gotoFlow, 300000)
+    startInactividad(ctx, gotoFlow, 800000)
   })  
 .addAnswer(['Contame, ¿Que tipo de Reclamo es?\n',
 '1. 👉 Higiene urbana 🗑',
@@ -45,7 +45,7 @@ telefono = ctx.from
 const option = ctx.body.toLowerCase().trim();
 
 if (!["1", "2", "3", "4"].includes(option)) {
-    resetInactividad(ctx, gotoFlow, 300000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
+    resetInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
     await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción válida.");
 
     await fallBack();
@@ -81,7 +81,7 @@ flowDynamic()
 '¿Podes decirme donde está ubicado?',
 {capture:true},
 async (ctx,{flowDynamic, gotoFlow}) =>{
-resetInactividad(ctx, gotoFlow, 300000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
+resetInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
 telefono = ctx.from
 ubicacion = STATUS[telefono] = {...STATUS[telefono], ubicacion : ctx.body}
 nombre = STATUS[telefono] = {...STATUS[telefono], nombre : ctx.pushName}

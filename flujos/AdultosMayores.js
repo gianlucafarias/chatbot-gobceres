@@ -20,7 +20,7 @@ const flowAdultosmayores = addKeyword('actividades adultos mayores')
             .catch((error) => {
                 console.error('Error al incrementar el contador del flujo:', error);
             });
-        startInactividad(ctx, gotoFlow, 120000)
+        startInactividad(ctx, gotoFlow, 800000)
       })
     .addAnswer(['¿Sobre qué queres saber? 👇',
     '1. 👉 Consejo de Adultos Mayores 📣',
@@ -33,7 +33,7 @@ const flowAdultosmayores = addKeyword('actividades adultos mayores')
 
         if (![1, 2].includes(opcion)) {
             errores++;
-            resetInactividad(ctx, gotoFlow, 90000)
+            resetInactividad(ctx, gotoFlow, 800000)
             if (errores > 2 )
             {
                 return gotoFlow(require('./flowAyuda'));

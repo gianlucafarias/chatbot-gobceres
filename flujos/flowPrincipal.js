@@ -1,19 +1,10 @@
 const { addKeyword, addAction, addAnswer, gotoFlow, flowDynamic, EVENTS } = require("@bot-whatsapp/bot");
 const {consultarContactos} = require('../consultarContactos')
-
-const {
-    startInactividad,
-    resetInactividad,
-    stopInactividad,
-    flowInactividad,
-  } = require('./idleCasero'); 
-
-  const contadorConversacion = require('../utils/contadorConversacion')
+const contadorConversacion = require('../utils/contadorConversacion')
 
 const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.WELCOME])
             .addAction(
                 async (ctx, { flowDynamic, state, provider, gotoFlow }) => {
-                    startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
                     contadorConversacion.iniciarContadorConversacion(ctx);
                     const nombre = ctx.pushName
                     const telefono = ctx.from
@@ -32,11 +23,9 @@ const flowPrincipal = addKeyword(["hola","buenas tardes", "buenos dias", EVENTS.
                     
                     if (existeContacto) {
                         // Si el contacto existe, ir al flujoMenu
-                        stopInactividad(ctx);
                         await gotoFlow((require("./flowMenu")));
                     } else {
                         // Si el contacto no existe, ir al flujo de bienvenida
-                        stopInactividad(ctx);
                         await gotoFlow((require("./flowPrimeraVez")));
                     }
                     

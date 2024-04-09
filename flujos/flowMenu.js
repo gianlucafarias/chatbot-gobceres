@@ -18,7 +18,7 @@ let errores = 0;
 
 const flowMenu = addKeyword(['menu', 'menú'])
 .addAction(async (ctx, { gotoFlow }) => {
-    startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+    startInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
   })        
 .addAnswer(['No soy un superhéroe pero puedo ayudarte de muchas maneras 🦸‍♀️',
             'Contame, ¿Sobre qué necesitas saber?',

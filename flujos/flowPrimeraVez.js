@@ -1,14 +1,12 @@
 const { addKeyword, addAction, addAnswer, gotoFlow, flowDynamic, EVENTS } = require("@bot-whatsapp/bot");
 
-const {
-    startInactividad,
-    resetInactividad,
-    stopInactividad,
-    flowInactividad,
-  } = require('./idleCasero'); 
+const { flowInactividad, startInactividad, resetInactividad, stopInactividad,
+} = require("./idleCasero"); 
 
   const flowPrimeraVez = addKeyword(['$primera_vez'])
-.addAnswer('¡Bienvenido! Estoy acá para ayudarte 24/7 con cualquier pregunta o información que necesites.')
+.addAnswer('¡Bienvenido! Estoy acá para ayudarte 24/7 con cualquier pregunta o información que necesites.', {delay: 1000}, async (ctx, {gotoFlow}) => {
+    startInactividad(ctx, gotoFlow, 800000)
+})
 .addAnswer(['Para que sea más facil entenderte, solo tenes que escribir el *número* de la opción que te interese. Si es la primera vez que hablas conmigo, te recomiendo ir a la opción *1* para conocerme. Si queres hacerme una consulta, podés ir al Menú Principal en la opción *2*.\n',
 '\n¿Cómo seguimos?',
 '1. 👉 ¿Cómo se usa Ceresito?',
@@ -19,7 +17,7 @@ const {
     const option = ctx.body.toLowerCase().trim();
 
     if (!["1", "2"].includes(option)) {
-        resetInactividad(ctx, gotoFlow, 90000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
+        resetInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  REINICIAMOS LA CUENTA ATRÁS
         await flowDynamic("⚠️ Opción no encontrada, por favor seleccione una opción dentro del menú.");
 
         await fallBack();

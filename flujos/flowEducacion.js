@@ -28,7 +28,7 @@ const flowEducacion = addKeyword('educacion')
     .catch((error) => {
         console.error('Error al incrementar el contador del flujo:', error);
     });
-    startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+    startInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
 })   
 .addAnswer('¿Querés estudiar? ¡Te felicitamos! En Ceres podes capacitarte en dos carreras universitarias y también en robótica 🤓')
 .addAnswer(['¿Sobre qué queres saber? 👇',

@@ -28,7 +28,7 @@ const flowCIC = addKeyword(['CIC', 'centro integrador comunitario', 'salud', 'te
             .catch((error) => {
                 console.error('Error al incrementar el contador del flujo:', error);
             });
-            startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+            startInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
         })   
         .addAnswer('El Centro de Integración Comunitaria se encuentra en Avenida Perón y Pasaje Melián. Te envío la ubicación:')
         .addAction(async (ctx, { provider }) => {

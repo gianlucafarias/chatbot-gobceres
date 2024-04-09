@@ -28,7 +28,7 @@ const flowAdultosmayores = addKeyword('actividades adultos mayores')
             .catch((error) => {
                 console.error('Error al incrementar el contador del flujo:', error);
             });
-            startInactividad(ctx, gotoFlow, 80000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
+            startInactividad(ctx, gotoFlow, 800000); // ⬅️⬅️⬅️  INICIAMOS LA CUENTA ATRÁS PARA ESTE USUARIO
         }) 
         .addAnswer('Desde el Gobierno de la Ciudad de Ceres impulsamos un montón de actividades para los adultos mayores 🤩',{delay: 1000})
         .addAnswer(['¿Sobre qué queres saber? 👇',

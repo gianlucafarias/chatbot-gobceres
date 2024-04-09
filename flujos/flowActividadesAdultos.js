@@ -26,7 +26,7 @@ const {
 const flowActividadesAdultos = addKeyword('actividades adultos mayores')   
         .addAnswer('Si querés sumarte a las actividades para adultos mayores, contame cual te interesa y te mando información 👇',
         {delay: 1000}, async (ctx, { provider, gotoFlow } ) => {
-        startInactividad(ctx, gotoFlow, 80000); 
+        startInactividad(ctx, gotoFlow, 800000); 
             const sock = await provider.getInstance();
             const msgPoll = {
             sticker: {
